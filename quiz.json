@@ -1,0 +1,11 @@
+{
+  "categories": [
+    {
+      "key": "exemple",
+      "title": "Ma Première Catégorie",
+      "icon": "🌟",
+      "questions": [],
+      "pdf": ""
+    }
+  ]
+}
