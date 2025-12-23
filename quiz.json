@@ -4,8 +4,20 @@
       "key": "exemple",
       "title": "Ma Première Catégorie",
       "icon": "🌟",
-      "questions": [],
-      "pdf": ""
+      "questions": [
+        {
+          "question": "a",
+          "options": [
+            "a",
+            "b",
+            "c",
+            "d"
+          ],
+          "answer": "a",
+          "explanation": "a"
+        }
+      ],
+      "pdf": "/uploads/cours_annulatifs_ablutions.pdf"
     }
   ]
 }
