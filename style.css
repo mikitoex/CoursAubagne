@@ -1,18 +1,16 @@
-/* --- 1. CONFIGURATION GLOBALE ET FOND --- */
+/* --- 1. CONFIGURATION ET FOND --- */
 :root {
-    --primary: #667eea;      /* Bleu doux */
-    --secondary: #764ba2;    /* Violet */
-    --accent: #fbc2eb;       /* Rose pâle pour les détails */
+    --primary: #667eea;
+    --secondary: #764ba2;
     --text-dark: #2d3436;
     --text-light: #636e72;
     --white: #ffffff;
-    --success: #00b894;      /* Vert menthe */
-    --error: #ff7675;        /* Rouge doux */
+    --success: #10b981;
+    --error: #ef4444;
 }
 
 body {
     font-family: 'Poppins', sans-serif;
-    /* Le fameux fond dégradé moderne */
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     margin: 0;
     display: flex;
@@ -22,51 +20,38 @@ body {
     color: var(--text-dark);
 }
 
-/* --- 2. LA BOITE PRINCIPALE (Le conteneur blanc) --- */
 .app-container {
     background-color: var(--white);
     width: 90%;
-    max-width: 500px; /* Taille type smartphone */
-    border-radius: 25px; /* Bords bien arrondis */
+    max-width: 500px;
+    border-radius: 25px;
     padding: 30px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.2); /* Ombre profonde pour l'effet 3D */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
     position: relative;
-    overflow: hidden; /* Pour que rien ne dépasse */
+    overflow: hidden;
 }
 
-/* --- 3. ANIMATIONS --- */
-.screen {
-    display: none;
-    animation: slideIn 0.5s ease-out;
-}
-
-.screen.active {
-    display: block;
-}
+/* --- 2. ANIMATIONS & ECRANS --- */
+.screen { display: none; animation: slideIn 0.5s ease-out; }
+.screen.active { display: block; }
 
 @keyframes slideIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- 4. LE MENU D'ACCUEIL --- */
+/* --- 3. MENU ACCUEIL --- */
 header h1 {
     font-size: 1.8rem;
     background: -webkit-linear-gradient(var(--primary), var(--secondary));
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; /* Texte en dégradé */
+    -webkit-text-fill-color: transparent;
     margin-bottom: 5px;
-}
-
-header p {
-    color: var(--text-light);
-    font-size: 0.9rem;
-    margin-top: 0;
 }
 
 .category-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 2 colonnes */
+    grid-template-columns: 1fr 1fr;
     gap: 15px;
     margin-top: 25px;
 }
@@ -83,249 +68,99 @@ header p {
 }
 
 .card:hover {
-    transform: translateY(-5px); /* Monte un peu */
+    transform: translateY(-5px);
     background: var(--white);
     border-color: var(--primary);
     box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
 }
 
-.card .icon {
-    font-size: 2.5rem;
+/* GESTION IMAGES & ICONES */
+.card .icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+
+.category-img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
     margin-bottom: 10px;
-    display: block;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    transition: transform 0.3s;
 }
 
-.card h3 {
-    margin: 5px 0;
-    font-size: 1rem;
-    font-weight: 600;
-}
+.card:hover .category-img { transform: scale(1.1); }
 
-.card p {
-    font-size: 0.75rem;
-    color: var(--text-light);
-}
+.card h3 { margin: 5px 0; font-size: 1rem; font-weight: 600; }
+.card p { font-size: 0.75rem; color: var(--text-light); }
+.card.locked { opacity: 0.6; cursor: not-allowed; background: #eee; }
 
-.card.locked {
-    opacity: 0.6;
-    cursor: not-allowed;
-    background: #eee;
-}
-
-/* --- 5. LE QUIZ --- */
+/* --- 4. QUIZ --- */
 .quiz-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--primary);
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 25px; color: var(--primary); font-weight: bold;
 }
+#category-badge { background: #eef2ff; padding: 5px 15px; border-radius: 20px; }
+#question-text { font-size: 1.2rem; line-height: 1.4; margin-bottom: 20px; }
 
-#category-badge {
-    background: #eef2ff;
-    padding: 5px 15px;
-    border-radius: 20px;
-    color: var(--primary);
-}
-
-.question-container {
-    margin-bottom: 25px;
-}
-
-#question-text {
-    font-size: 1.3rem;
-    line-height: 1.4;
-    color: var(--text-dark);
-}
-
-/* BOUTONS DE RÉPONSE */
 .option-btn {
-    display: block;
-    width: 100%;
-    padding: 16px;
-    margin-bottom: 12px;
-    border: 2px solid #edf2f7;
-    border-radius: 12px;
-    background: var(--white);
-    color: var(--text-dark);
-    font-size: 1rem;
-    font-family: inherit;
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.2s;
-    position: relative;
+    display: block; width: 100%; padding: 16px; margin-bottom: 12px;
+    border: 2px solid #edf2f7; border-radius: 12px;
+    background: var(--white); color: var(--text-dark);
+    font-size: 1rem; cursor: pointer; text-align: left; transition: all 0.2s;
 }
+.option-btn:hover:not(:disabled) { border-color: var(--primary); background: #f8f9fe; }
 
-.option-btn:hover:not(:disabled) {
-    border-color: var(--primary);
-    background: #f8f9fe;
-}
-
-.option-btn:disabled {
-    cursor: default;
-    opacity: 0.9;
-}
-
-/* --- 6. FEEDBACK (JUSTE/FAUX) --- */
+/* --- 5. FEEDBACK --- */
 .hidden { display: none; }
+#feedback-box { margin-top: 20px; padding: 20px; border-radius: 15px; animation: popIn 0.3s; }
+@keyframes popIn { from { transform: scale(0.9); } to { transform: scale(1); } }
 
-#feedback-box {
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 15px;
-    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes popIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
-#feedback-box.correct {
-    background-color: #d1fae5;
-    border-left: 5px solid var(--success);
-    color: #065f46;
-}
-
-#feedback-box.wrong {
-    background-color: #fee2e2;
-    border-left: 5px solid var(--error);
-    color: #991b1b;
-}
+#feedback-box.correct { background: #d1fae5; border-left: 5px solid var(--success); color: #064e3b; }
+#feedback-box.wrong { background: #fee2e2; border-left: 5px solid var(--error); color: #7f1d1d; }
 
 #next-btn {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 15px;
-    float: right;
+    background: var(--primary); color: white; border: none;
+    padding: 12px 25px; border-radius: 50px; font-weight: bold;
+    cursor: pointer; float: right; margin-top: 15px;
     box-shadow: 0 4px 10px rgba(102, 126, 234, 0.4);
-    transition: transform 0.2s;
 }
 
-#next-btn:hover {
-    transform: scale(1.05);
-}
-
-/* --- 7. ÉCRAN DE RÉSULTAT & CADEAU --- */
-.result-card {
-    text-align: center;
-    padding: 20px 0;
-}
-
+/* --- 6. RESULTATS --- */
+.result-card { text-align: center; padding: 20px 0; }
 .score-display {
-    font-size: 4rem;
-    font-weight: 800;
+    font-size: 4rem; font-weight: 800;
     background: -webkit-linear-gradient(var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 10px 0;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 
-/* Le Cadeau */
 #reward-section {
-    background: #fffbeb; /* Fond jaune très pâle */
-    border: 2px dashed #f59e0b; /* Bordure pointillée orange */
-    padding: 20px;
-    border-radius: 15px;
-    margin: 20px 0;
+    background: #fffbeb; border: 2px dashed #f59e0b;
+    padding: 20px; border-radius: 15px; margin: 20px 0;
 }
 
 .download-btn {
     display: inline-block;
-    background: linear-gradient(45deg, #f6d365 0%, #fda085 100%); /* Dégradé Or/Orange */
-    color: white;
-    text-decoration: none;
-    padding: 15px 30px;
-    border-radius: 50px;
-    font-weight: bold;
+    background: linear-gradient(45deg, #f6d365 0%, #fda085 100%);
+    color: white; text-decoration: none; padding: 12px 25px;
+    border-radius: 50px; font-weight: bold; margin-top: 10px;
     box-shadow: 0 5px 15px rgba(246, 211, 101, 0.4);
-    transition: transform 0.2s;
-    margin-top: 10px;
     animation: pulse 2s infinite;
 }
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
+@keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
 
 .primary-btn {
-    background: var(--text-dark);
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 50px;
-    cursor: pointer;
-    font-family: inherit;
-    margin-top: 10px;
+    background: var(--text-dark); color: white; border: none;
+    padding: 12px 30px; border-radius: 50px; cursor: pointer; margin-top: 10px;
 }
 
-/* --- 8. PIED DE PAGE & ADMIN --- */
-footer {
-    margin-top: 40px;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
-}
+/* --- 7. BOUTON ADMIN PRO --- */
+footer { text-align: center; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; }
 
 .admin-login-btn {
-    background: transparent;
-    border: 1px solid #ddd;
-    color: #aaa;
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.3s;
+    background: white; color: var(--text-dark); border: 2px solid #edf2f7;
+    padding: 10px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;
 }
-
 .admin-login-btn:hover {
-    background: var(--text-dark);
-    color: white;
-    border-color: var(--text-dark);
+    border-color: var(--primary); color: var(--primary);
+    transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
-/* --- LE BOUTON PROFESSEUR (DESIGN PRO) --- */
-footer {
-    text-align: center;
-    margin-top: 60px;
-    padding-bottom: 40px;
-    position: relative;
-}
-
-.admin-login-btn {
-    background: white;
-    color: var(--text-dark);
-    border: 2px solid #edf2f7;
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px; /* Espace entre icone et texte */
-}
-
-/* Effet au survol */
-.admin-login-btn:hover {
-    border-color: var(--primary);
-    color: var(--primary);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.15);
-}
-
-/* Petite icône cadenas avant le texte */
-.admin-login-btn::before {
-    content: "";
-    font-size: 1.1rem;
-}
-
+.admin-login-btn::before { content: "🔒"; }
