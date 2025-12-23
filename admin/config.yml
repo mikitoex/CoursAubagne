@@ -40,13 +40,20 @@ collections:
                   widget: "string"
                 },
                 
-                # 3. IMAGE OU ICONE (La nouveauté !)
+                # 3. CHOIX VISUEL : EMOJI OU IMAGE
                 {
-                  label: "Image ou Emoji", 
-                  name: "icon", 
+                  label: "Option 1 : Emoji", 
+                  name: "emoji", 
+                  widget: "string", 
+                  required: false,
+                  hint: "Écris l'emoji ici si tu veux du texte (ex: 🕌, 💩, 💧)."
+                },
+                {
+                  label: "Option 2 : Image", 
+                  name: "image", 
                   widget: "image", 
                   required: false,
-                  hint: "Upload une image (Tapis, Kaaba...) OU laisse vide (le code mettra un emoji par défaut)."
+                  hint: "Uploade une image si tu préfères (Remplacera l'emoji)."
                 },
                 
                 # 4. LE PDF
@@ -55,7 +62,7 @@ collections:
                   name: "pdf", 
                   widget: "file", 
                   required: false,
-                  hint: "Le fichier à gagner si l'élève a tout bon."
+                  hint: "Le fichier à gagner si l'élève a 10/10."
                 },
                 
                 # 5. LES QUESTIONS
@@ -68,7 +75,7 @@ collections:
                   fields: [
                     {label: "La Question", name: "question", widget: "string"},
                     {label: "Les Choix (2 à 4)", name: "options", widget: "list"},
-                    {label: "La BONNE Réponse (Copie exacte)", name: "answer", widget: "string"},
+                    {label: "La BONNE Réponse", name: "answer", widget: "string", hint: "Copie exactement la bonne réponse des choix."},
                     {label: "Explication", name: "explanation", widget: "text", required: false}
                   ]
                 }
