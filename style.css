@@ -325,6 +325,7 @@ footer {
 
 /* Petite icône cadenas avant le texte */
 .admin-login-btn::before {
-    content: "🔒";
+    content: "";
     font-size: 1.1rem;
 }
+
