@@ -2,8 +2,9 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "/"
-public_folder: "/"
+# AJOUTE LE SLASH / AU DÉBUT ICI 👇
+media_folder: "/uploads"
+public_folder: "/uploads"
 
 collections:
   - name: "quiz"
@@ -14,14 +15,14 @@ collections:
         file: "quiz.json"
         fields:
           - {label: "Liste des Catégories", name: "categories", widget: "list", fields: [
-              {label: "Identifiant Unique (ex: jeune, priere)", name: "key", widget: "string"},
+              {label: "Identifiant (ex: jeune)", name: "key", widget: "string"},
               {label: "Titre Affiché", name: "title", widget: "string"},
-              {label: "Emoji/Icone", name: "icon", widget: "string"},
-              {label: "Fichier PDF à gagner", name: "pdf", widget: "file", required: false},
+              {label: "Emoji", name: "icon", widget: "string"},
+              {label: "PDF à gagner", name: "pdf", widget: "file", required: false},
               {label: "Questions", name: "questions", widget: "list", fields: [
                   {label: "Question", name: "question", widget: "string"},
-                  {label: "Choix de réponses", name: "options", widget: "list"},
-                  {label: "Bonne réponse (copier exactement une des options)", name: "answer", widget: "string"},
+                  {label: "Réponses (séparez par virgule)", name: "options", widget: "list"},
+                  {label: "Bonne réponse (copie exacte)", name: "answer", widget: "string"},
                   {label: "Explication", name: "explanation", widget: "text"}
               ]}
             ]}
