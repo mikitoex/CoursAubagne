@@ -4,9 +4,8 @@ let currentQuestionIndex = 0;
 let score = 0;
 let currentCategoryKey = "";
 
-// C'est cette partie qui va chercher tes modifications
+// CHARGEMENT
 document.addEventListener('DOMContentLoaded', () => {
-    // On ajoute un petit code (?t=...) pour forcer la mise à jour immédiate
     fetch('quiz.json?t=' + Date.now())
         .then(response => {
             if (!response.ok) { throw new Error("Fichier introuvable"); }
@@ -26,9 +25,8 @@ function generateMenu() {
     const grid = document.getElementById('menu-grid');
     if (!grid) return;
     
-    grid.innerHTML = ""; // On vide les anciennes cartes (comme "Bientôt...")
+    grid.innerHTML = ""; 
 
-    // On crée les nouvelles cartes depuis quiz.json
     if (appData.categories) {
         appData.categories.forEach(category => {
             const count = category.questions ? category.questions.length : 0;
@@ -121,6 +119,7 @@ function nextQuestion() {
     }
 }
 
+// --- C'EST ICI QUE J'AI FAIT LE CHANGEMENT ---
 function showResults() {
     document.getElementById('score').innerText = score;
     document.getElementById('total-questions').innerText = currentQuestions.length;
@@ -129,14 +128,29 @@ function showResults() {
     const pdfLink = document.getElementById('pdf-link');
     const currentCategory = appData.categories.find(c => c.key === currentCategoryKey);
 
-    if (currentCategory && currentCategory.pdf) {
+    // On vérifie :
+    // 1. Si un PDF existe
+    // 2. ET (&&) si le score est égal au nombre total de questions (TOUT JUSTE)
+    if (currentCategory && currentCategory.pdf && score === currentQuestions.length) {
+        
+        rewardSection.innerHTML = `
+            <p>🎁 Bravo ! Un score parfait !<br>Voici ton cadeau :</p>
+            <a id="pdf-link" href="#" download class="download-btn">📄 Télécharger le Cours (PDF)</a>
+        `;
         rewardSection.classList.remove('hidden');
-        // On nettoie le lien du PDF
+
+        // Configuration du lien
         let pdfPath = currentCategory.pdf.startsWith('/') ? currentCategory.pdf.substring(1) : currentCategory.pdf;
-        pdfLink.href = pdfPath;
-        pdfLink.setAttribute('download', pdfPath);
+        const link = document.getElementById('pdf-link');
+        link.href = pdfPath;
+        link.setAttribute('download', pdfPath);
+
     } else {
-        rewardSection.classList.add('hidden');
+        // Si pas de PDF ou pas le score parfait
+        rewardSection.classList.remove('hidden'); // On affiche quand même la zone pour encourager
+        rewardSection.innerHTML = `
+            <p style="color: #666;">Obtiens <strong>100% de bonnes réponses</strong> pour débloquer le PDF du cours ! 🔒</p>
+        `;
     }
     showScreen('result-screen');
 }
