@@ -6,6 +6,8 @@
     <title>Quiz Islamique & Révisions</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
 
@@ -17,30 +19,8 @@
                 <p>Choisis un sujet pour commencer</p>
             </header>
             
-            <div class="category-grid">
-                <div class="card" onclick="startQuiz('ablutions')">
-                    <div class="icon">💧</div>
-                    <h3>Les Annulatifs</h3>
-                    <p>Ablutions & Règles</p>
+            <div id="menu-grid" class="category-grid">
                 </div>
-
-                <div class="card locked">
-                    <div class="icon">🔒</div>
-                    <h3>Bientôt...</h3>
-                    <p>En construction</p>
-                </div>
-
-                <div class="card locked">
-                    <div class="icon">🔒</div>
-                    <h3>Bientôt...</h3>
-                    <p>En construction</p>
-                </div>
-                 <div class="card locked">
-                    <div class="icon">🔒</div>
-                    <h3>Bientôt...</h3>
-                    <p>En construction</p>
-                </div>
-            </div>
         </div>
 
         <div id="quiz-screen" class="screen">
@@ -50,7 +30,7 @@
             </div>
 
             <div class="question-container">
-                <h2 id="question-text">La question...</h2>
+                <h2 id="question-text">Chargement...</h2>
             </div>
 
             <div id="options-container">
@@ -72,21 +52,27 @@
                     <span id="score">0</span> / <span id="total-questions">0</span>
                 </div>
 
-                <div id="reward-section">
-                    <p>🎁 Bravo, tu as bien travaillé !<br>Voici le cours complet en cadeau :</p>
-                    <a href="cours.pdf" download="Cours_Annulatifs_Ablutions.pdf" class="download-btn">
+                <div id="reward-section" class="hidden">
+                    <p>🎁 Bravo ! Voici le cours complet en cadeau :</p>
+                    <a id="pdf-link" href="#" download class="download-btn">
                         📄 Télécharger le Cours (PDF)
                     </a>
                 </div>
+                
                 <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
 
                 <button class="primary-btn" onclick="returnToHome()">🏠 Retour au Menu</button>
             </div>
         </div>
 
+        <footer style="text-align: center; margin-top: 50px; padding: 20px; border-top: 1px solid #eee;">
+            <button onclick="window.location.href='/admin/'" class="admin-login-btn">
+                🔒 Espace Professeur
+            </button>
+        </footer>
+
     </div>
 
     <script src="script.js"></script>
-    <script src="data.js"></script>
 </body>
 </html>
