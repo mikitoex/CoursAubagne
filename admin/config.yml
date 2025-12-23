@@ -2,13 +2,12 @@ backend:
   name: git-gateway
   branch: main
 
-# Dossier où les PDF seront stockés
+# Dossier où les images et PDF seront stockés
 media_folder: "/uploads"
 public_folder: "/uploads"
 
 # Configuration de l'affichage
 display_url: "https://aubagnecours.netlify.app"
-logo_url: "https://identity.netlify.com/v1/netlify-identity-widget.js" 
 locale: "fr" 
 
 collections:
@@ -31,33 +30,32 @@ collections:
                   label: "Identifiant Unique (ID)", 
                   name: "key", 
                   widget: "string",
-                  hint: "⚠️ Important : Écris un mot simple en minuscules, sans espace ni accent (ex: priere, jeune, zakat)."
+                  hint: "⚠️ Important : Un mot simple minuscule sans espace (ex: priere)."
                 },
                 
-                # 2. TITRE VISIBLE
+                # 2. TITRE
                 {
                   label: "Titre du Quiz", 
                   name: "title", 
-                  widget: "string",
-                  hint: "C'est le titre que les élèves verront sur l'accueil (ex: La Prière)."
+                  widget: "string"
                 },
                 
-                # 3. ICONE
+                # 3. IMAGE OU ICONE (La nouveauté !)
                 {
-                  label: "Icône / Emoji", 
+                  label: "Image ou Emoji", 
                   name: "icon", 
-                  widget: "string",
-                  default: "📝",
-                  hint: "Copie-colle un emoji ici (ex: 🕌, 💧, 🌙)."
+                  widget: "image", 
+                  required: false,
+                  hint: "Upload une image (Tapis, Kaaba...) OU laisse vide (le code mettra un emoji par défaut)."
                 },
                 
                 # 4. LE PDF
                 {
-                  label: "🎁 Cadeau PDF (Récompense)", 
+                  label: "🎁 Cadeau PDF", 
                   name: "pdf", 
                   widget: "file", 
                   required: false,
-                  hint: "Clique pour ajouter le fichier PDF que l'élève gagnera s'il a 100% de bonnes réponses."
+                  hint: "Le fichier à gagner si l'élève a tout bon."
                 },
                 
                 # 5. LES QUESTIONS
@@ -68,30 +66,10 @@ collections:
                   collapsed: true, 
                   summary: "{{question}}",
                   fields: [
-                    {
-                      label: "La Question", 
-                      name: "question", 
-                      widget: "string"
-                    },
-                    {
-                      label: "Les Choix Possibles", 
-                      name: "options", 
-                      widget: "list",
-                      hint: "Ajoute 2, 3 ou 4 réponses possibles."
-                    },
-                    {
-                      label: "La BONNE Réponse", 
-                      name: "answer", 
-                      widget: "string",
-                      hint: "⚠️ Attention : Copie-colle EXACTEMENT la bonne réponse qui est dans la liste des choix au-dessus."
-                    },
-                    {
-                      label: "Explication (Pédagogie)", 
-                      name: "explanation", 
-                      widget: "text",
-                      required: false,
-                      hint: "Ce texte s'affiche après que l'élève ait répondu (ex: Preuve du Hadith, explication...)."
-                    }
+                    {label: "La Question", name: "question", widget: "string"},
+                    {label: "Les Choix (2 à 4)", name: "options", widget: "list"},
+                    {label: "La BONNE Réponse (Copie exacte)", name: "answer", widget: "string"},
+                    {label: "Explication", name: "explanation", widget: "text", required: false}
                   ]
                 }
               ]
