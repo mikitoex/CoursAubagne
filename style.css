@@ -1,0 +1,219 @@
+/* --- CONFIGURATION GLOBALE --- */
+:root {
+    --primary: #6C63FF; /* Couleur principale (Violet/Bleu) */
+    --secondary: #4a4a4a;
+    --background: #f0f2f5;
+    --surface: #ffffff;
+    --success: #2ecc71; /* Vert */
+    --error: #e74c3c;   /* Rouge */
+    --text: #2d3436;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--text);
+}
+
+.app-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px;
+}
+
+/* --- GESTION DES ÉCRANS --- */
+.screen { display: none; animation: fadeIn 0.5s; }
+.screen.active { display: block; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- MENU (CARTES) --- */
+header { text-align: center; margin-bottom: 30px; }
+header h1 { color: var(--primary); margin: 0; font-size: 2rem; }
+header p { color: #888; margin-top: 5px; }
+
+.category-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.card {
+    background: var(--surface);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid transparent;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    border-color: var(--primary);
+}
+
+.card .icon { font-size: 2.5rem; margin-bottom: 10px; }
+.card h3 { margin: 10px 0 5px; font-size: 1.1rem; }
+.card p { font-size: 0.8rem; color: #888; margin: 0; }
+
+.card.locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #e9ecef;
+}
+.card.locked:hover { transform: none; border-color: transparent; }
+
+/* --- QUIZ UI --- */
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #888;
+}
+
+#category-badge {
+    background: #e0e0ff;
+    color: var(--primary);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.question-container {
+    background: var(--surface);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.question-container h2 { margin: 0; font-size: 1.2rem; line-height: 1.5; }
+
+/* BOUTONS REPONSES */
+.option-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.option-btn:hover:not(:disabled) {
+    border-color: var(--primary);
+    background: #f4f4ff;
+}
+
+.option-btn:disabled { cursor: default; }
+
+/* --- FEEDBACK (EXPLICATION) --- */
+.hidden { display: none; }
+
+#feedback-box {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 12px;
+    background: #fff;
+    border-left: 5px solid #ccc;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#feedback-box.correct { border-color: var(--success); background: #e8f8f0; }
+#feedback-box.wrong { border-color: var(--error); background: #fdeded; }
+
+#feedback-title { margin: 0 0 10px 0; font-weight: bold; }
+#next-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 15px;
+    float: right;
+}
+#next-btn:hover { background: #564fcc; }
+
+/* --- RESULTATS --- */
+.result-card {
+    background: var(--surface);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.score-display {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--primary);
+    margin: 20px 0;
+}
+.primary-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.primary-btn:hover { transform: scale(1.05); }
+
+/* --- BOUTON CADEAU PDF --- */
+#reward-section {
+    margin: 20px 0;
+    animation: popIn 0.8s ease-out;
+}
+
+.download-btn {
+    display: inline-block;
+    background: linear-gradient(45deg, #f1c40f, #f39c12); /* Couleur Or */
+    color: white;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+}
+
+.download-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(243, 156, 18, 0.6);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
