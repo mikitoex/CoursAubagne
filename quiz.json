@@ -18,6 +18,25 @@
         }
       ],
       "pdf": "/uploads/cours_annulatifs_ablutions.pdf"
+    },
+    {
+      "key": "p",
+      "title": "p",
+      "icon": "p",
+      "pdf": "/uploads/cours_annulatifs_ablutions.pdf",
+      "questions": [
+        {
+          "question": "a",
+          "options": [
+            "a",
+            "b",
+            "c",
+            "d"
+          ],
+          "answer": "a",
+          "explanation": "a"
+        }
+      ]
     }
   ]
 }
