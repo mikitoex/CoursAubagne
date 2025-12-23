@@ -6,7 +6,8 @@ let currentCategoryKey = "";
 
 // 1. CHARGEMENT AUTOMATIQUE DES DONNÉES (Lien avec l'Admin)
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('quiz.json')
+    // On ajoute ?t=... pour empêcher le navigateur de garder l'ancien fichier en mémoire
+fetch('quiz.json?t=' + Date.now())
         .then(response => {
             if (!response.ok) {
                 throw new Error("Impossible de trouver quiz.json");
@@ -190,3 +191,4 @@ function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
 }
+
