@@ -1,0 +1,27 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "/"
+public_folder: "/"
+
+collections:
+  - name: "quiz"
+    label: "Quiz & Catégories"
+    files:
+      - name: "data"
+        label: "Mes Quiz"
+        file: "quiz.json"
+        fields:
+          - {label: "Liste des Catégories", name: "categories", widget: "list", fields: [
+              {label: "Identifiant Unique (ex: jeune, priere)", name: "key", widget: "string"},
+              {label: "Titre Affiché", name: "title", widget: "string"},
+              {label: "Emoji/Icone", name: "icon", widget: "string"},
+              {label: "Fichier PDF à gagner", name: "pdf", widget: "file", required: false},
+              {label: "Questions", name: "questions", widget: "list", fields: [
+                  {label: "Question", name: "question", widget: "string"},
+                  {label: "Choix de réponses", name: "options", widget: "list"},
+                  {label: "Bonne réponse (copier exactement une des options)", name: "answer", widget: "string"},
+                  {label: "Explication", name: "explanation", widget: "text"}
+              ]}
+            ]}
