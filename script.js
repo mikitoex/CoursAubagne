@@ -1,91 +1,79 @@
-// --- BASE DE DONNÉES AVEC EXPLICATIONS ---
-const quizzes = {
-    // Catégorie 1 : Ablutions (Ton cours)
-    ablutions: [
-        { 
-            question: "Quel est le statut juridique concernant 'quelque chose qui sort des parties intimes' ?", 
-            options: ["C'est une divergence", "C'est un consensus (Ijma')", "Cela dépend de la quantité"], 
-            answer: "C'est un consensus (Ijma')",
-            explanation: "C'est un consensus (Ijma') parmi tous les savants : tout ce qui sort des deux voies annule les ablutions."
-        },
-        { 
-            question: "Concernant le sommeil, qu'est-ce qui annule les ablutions ?", 
-            options: ["Dormir, peu importe la durée", "Seulement le sommeil profond", "Dormir allongé uniquement"], 
-            answer: "Seulement le sommeil profond",
-            explanation: "La distinction est faite selon la profondeur. Dormir profondément (perte de conscience totale) annule les ablutions, peu importe la durée."
-        },
-        { 
-            question: "Si une cause entraîne les grandes ablutions (ex: menstrues), qu'en est-il des petites ablutions ?", 
-            options: ["Elles sont annulées aussi", "Elles restent valides", "C'est indépendant"], 
-            answer: "Elles sont annulées aussi",
-            explanation: "Ce qui oblige au plus grand (Ghusl) oblige forcément à refaire le plus petit (Wudu)."
-        },
-        { 
-            question: "Avis n°1 (Maliki, Shafi'i, Hanbali) : Toucher ses parties intimes...", 
-            options: ["Annule directement", "N'annule pas", "Annule seulement avec désir"], 
-            answer: "Annule directement",
-            explanation: "Pour la majorité (avis n°1), le simple fait de toucher la peau directement annule les ablutions (Preuve : Hadith an-Nasa'i n°447)."
-        },
-        { 
-            question: "Avis n°2 (Hanafi) : Pourquoi disent-ils que toucher n'annule PAS les ablutions ?", 
-            options: ["Le hadith est abrogé", "Règles méthodologiques", "Aucune preuve"], 
-            answer: "Règles méthodologiques",
-            explanation: "Les Hanafites s'appuient sur leurs règles méthodologiques, notant par exemple que le hadith contraire est rapporté par une seule personne."
-        },
-        { 
-            question: "Avis n°3 (Sheikh Al-Uthaymin) : Quelles conditions annulent les ablutions ?", 
-            options: ["Toucher longtemps", "Toucher direct + Avec plaisir", "Toucher avec un tissu"], 
-            answer: "Toucher direct + Avec plaisir",
-            explanation: "Sheikh Al-Uthaymin concilie les preuves : cela annule seulement si deux conditions sont réunies : toucher sans barrage ET avec désir."
-        },
-        { 
-            question: "Quelle est la règle choisie dans ce cours concernant le chameau ?", 
-            options: ["Seule la viande rouge annule", "Tout le chameau (viande, graisse...) annule", "Rien n'annule"], 
-            answer: "Tout le chameau (viande, graisse...) annule",
-            explanation: "L'avis retenu est que manger de la viande de chameau et tout ce qui en découle (graisse, tripes, etc.) annule les ablutions."
-        },
-        { 
-            question: "Quelle est l'exception qui n'annule PAS les ablutions concernant le chameau ?", 
-            options: ["La bosse", "La graisse", "Le lait et l'urine"], 
-            answer: "Le lait et l'urine",
-            explanation: "L'exception concerne uniquement le lait et l'urine du chameau, qui ne rompent pas les ablutions."
-        },
-        { 
-            question: "Pourquoi considérons-nous que TOUT le chameau annule (pas juste le muscle) ?", 
-            options: ["Par analogie avec le porc", "C'est une tradition locale", "Par précaution"], 
-            answer: "Par analogie avec le porc",
-            explanation: "On fait l'analogie avec le porc cité dans le Coran : quand le texte interdit 'la viande', cela englobe tout l'animal."
-        }
-    ]
-    // Tu pourras ajouter d'autres catégories ici plus tard (ex: 'priere': [...])
-};
-
-// --- VARIABLES ---
+let appData = {}; // On stockera les données ici
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
+let currentCategoryKey = "";
 
-// --- FONCTIONS ---
+// 1. CHARGEMENT AUTOMATIQUE DES DONNÉES (Lien avec l'Admin)
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('quiz.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Impossible de trouver quiz.json");
+            }
+            return response.json();
+        })
+        .then(data => {
+            // On stocke les données reçues
+            appData = data; 
+            // On génère le menu d'accueil
+            generateMenu();
+        })
+        .catch(err => {
+            console.error("Erreur :", err);
+            document.getElementById('menu-grid').innerHTML = "<p>Erreur de chargement des questions.</p>";
+        });
+});
 
-function startQuiz(category) {
-    // Si la catégorie n'existe pas ou est vide (pour les boutons "Bientôt")
-    if (!quizzes[category]) {
-        alert("⚠️ Cette catégorie est en cours de construction !");
-        return;
+// 2. GÉNÉRER LE MENU D'ACCUEIL
+function generateMenu() {
+    const grid = document.getElementById('menu-grid');
+    if (!grid) return; // Sécurité si on n'est pas sur la bonne page
+    
+    grid.innerHTML = ""; 
+
+    // On vérifie si on a bien des catégories
+    if (appData.categories) {
+        appData.categories.forEach(category => {
+            const count = category.questions ? category.questions.length : 0;
+            
+            const card = document.createElement('div');
+            card.className = count === 0 ? 'card locked' : 'card';
+            
+            // Si la catégorie a des questions, on rend le clic actif
+            if (count > 0) {
+                card.onclick = () => startQuiz(category);
+            } else {
+                card.onclick = () => alert("⚠️ Cette section est en construction !");
+            }
+
+            card.innerHTML = `
+                <div class="icon">${category.icon || '📝'}</div>
+                <h3>${category.title}</h3>
+                <p>${count} Questions</p>
+            `;
+            grid.appendChild(card);
+        });
     }
+}
 
-    currentQuestions = quizzes[category];
+// 3. LANCER UN QUIZ
+function startQuiz(categoryObj) {
+    currentQuestions = categoryObj.questions;
+    currentCategoryKey = categoryObj.key;
     currentQuestionIndex = 0;
     score = 0;
 
-    // Mise à jour visuelle
-    document.getElementById('category-badge').innerText = category.toUpperCase();
+    // Mise à jour du titre
+    document.getElementById('category-badge').innerText = categoryObj.title.toUpperCase();
+    
     showScreen('quiz-screen');
     loadQuestion();
 }
 
+// 4. AFFICHER UNE QUESTION
 function loadQuestion() {
-    // Cacher la boite de feedback et vider les options précédentes
+    // Reset de l'affichage
     document.getElementById('feedback-box').className = "hidden";
     const optionsContainer = document.getElementById('options-container');
     optionsContainer.innerHTML = "";
@@ -106,53 +94,60 @@ function loadQuestion() {
     });
 }
 
+// 5. VÉRIFIER LA RÉPONSE
 function checkAnswer(selectedOption, btnElement) {
     const questionObj = currentQuestions[currentQuestionIndex];
     const feedbackBox = document.getElementById('feedback-box');
     const feedbackTitle = document.getElementById('feedback-title');
     const feedbackText = document.getElementById('feedback-text');
     
-    // Désactiver tous les boutons pour empêcher le multi-clic
+    // Désactiver tous les boutons
     const allButtons = document.querySelectorAll('.option-btn');
     allButtons.forEach(btn => btn.disabled = true);
 
-    // Vérification
     if (selectedOption === questionObj.answer) {
         score++;
-        btnElement.style.backgroundColor = "#d4edda"; // Fond vert clair
-        btnElement.style.borderColor = "#28a745";     // Bordure verte
-        btnElement.style.color = "#155724";           // Texte vert foncé
+        styleButton(btnElement, 'correct');
         
         feedbackBox.classList.remove('hidden');
         feedbackBox.classList.add('correct');
         feedbackBox.classList.remove('wrong');
         feedbackTitle.innerText = "✅ Bonne réponse !";
     } else {
-        btnElement.style.backgroundColor = "#f8d7da"; // Fond rouge clair
-        btnElement.style.borderColor = "#dc3545";     // Bordure rouge
-        btnElement.style.color = "#721c24";           // Texte rouge foncé
+        styleButton(btnElement, 'wrong');
 
         // Montrer la bonne réponse
         allButtons.forEach(btn => {
             if (btn.innerText === questionObj.answer) {
-                btn.style.backgroundColor = "#d4edda";
-                btn.style.borderColor = "#28a745";
+                styleButton(btn, 'correct');
             }
         });
 
         feedbackBox.classList.remove('hidden');
         feedbackBox.classList.add('wrong');
         feedbackBox.classList.remove('correct');
-        feedbackTitle.innerText = "❌ Oups... Faux !";
+        feedbackTitle.innerText = "❌ Faux !";
     }
 
-    // Afficher l'explication
-    feedbackText.innerText = questionObj.explanation;
+    feedbackText.innerText = questionObj.explanation || "Pas d'explication supplémentaire.";
 }
 
+// Utilitaire pour le style des boutons
+function styleButton(btn, type) {
+    if (type === 'correct') {
+        btn.style.backgroundColor = "#d4edda";
+        btn.style.borderColor = "#28a745";
+        btn.style.color = "#155724";
+    } else {
+        btn.style.backgroundColor = "#f8d7da";
+        btn.style.borderColor = "#dc3545";
+        btn.style.color = "#721c24";
+    }
+}
+
+// 6. QUESTION SUIVANTE
 function nextQuestion() {
     currentQuestionIndex++;
-    
     if (currentQuestionIndex < currentQuestions.length) {
         loadQuestion();
     } else {
@@ -160,12 +155,33 @@ function nextQuestion() {
     }
 }
 
+// 7. RÉSULTATS ET PDF
 function showResults() {
     document.getElementById('score').innerText = score;
     document.getElementById('total-questions').innerText = currentQuestions.length;
+    
+    // Gestion du PDF cadeau
+    const rewardSection = document.getElementById('reward-section');
+    const pdfLink = document.getElementById('pdf-link');
+    
+    // On retrouve la catégorie actuelle dans les données pour choper le PDF
+    const currentCategory = appData.categories.find(c => c.key === currentCategoryKey);
+
+    if (currentCategory && currentCategory.pdf) {
+        rewardSection.classList.remove('hidden');
+        // Nettoyage du chemin (parfois le CMS met un / au début)
+        let pdfPath = currentCategory.pdf.startsWith('/') ? currentCategory.pdf.substring(1) : currentCategory.pdf;
+        
+        pdfLink.href = pdfPath;
+        pdfLink.setAttribute('download', pdfPath);
+    } else {
+        rewardSection.classList.add('hidden');
+    }
+
     showScreen('result-screen');
 }
 
+// NAVIGATION
 function returnToHome() {
     showScreen('category-screen');
 }
