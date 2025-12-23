@@ -1,9 +1,20 @@
 {
   "categories": [
     {
-      "icon": "📝",
+      "icon": "/uploads/schema.png",
       "key": "a",
-      "title": "a"
+      "title": "a",
+      "pdf": "/uploads/cours_annulatifs_ablutions.pdf",
+      "questions": [
+        {
+          "question": "a",
+          "options": [
+            "a"
+          ],
+          "answer": "a",
+          "explanation": "a"
+        }
+      ]
     }
   ]
 }
