@@ -4,11 +4,11 @@ let currentQuestionIndex = 0;
 let score = 0;
 let currentCategoryKey = "";
 
-// CHARGEMENT
+// 1. CHARGEMENT (Avec cache-buster pour mise à jour immédiate)
 document.addEventListener('DOMContentLoaded', () => {
     fetch('quiz.json?t=' + Date.now())
         .then(response => {
-            if (!response.ok) { throw new Error("Fichier introuvable"); }
+            if (!response.ok) { throw new Error("Fichier quiz.json introuvable"); }
             return response.json();
         })
         .then(data => {
@@ -17,10 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(err => {
             console.error(err);
-            document.getElementById('menu-grid').innerHTML = "<p>Chargement...</p>";
+            document.getElementById('menu-grid').innerHTML = "<p style='text-align:center; color:white;'>Chargement des cours...</p>";
         });
 });
 
+// 2. GÉNÉRER LE MENU (Gère Images ET Emojis)
 function generateMenu() {
     const grid = document.getElementById('menu-grid');
     if (!grid) return;
@@ -39,8 +40,19 @@ function generateMenu() {
                 card.onclick = () => alert("En construction !");
             }
 
+            // --- LOGIQUE IMAGE vs EMOJI ---
+            let iconHtml;
+            // Si c'est une image (contient .png, .jpg, etc)
+            if (category.icon && (category.icon.includes('.') || category.icon.includes('/'))) {
+                let imgPath = category.icon.startsWith('/') ? category.icon.substring(1) : category.icon;
+                iconHtml = `<img src="${imgPath}" class="category-img" alt="${category.title}">`;
+            } else {
+                // Sinon c'est un emoji ou texte
+                iconHtml = `<div class="icon">${category.icon || '📝'}</div>`;
+            }
+
             card.innerHTML = `
-                <div class="icon">${category.icon || '📝'}</div>
+                ${iconHtml}
                 <h3>${category.title}</h3>
                 <p>${count} Questions</p>
             `;
@@ -49,6 +61,7 @@ function generateMenu() {
     }
 }
 
+// 3. LANCER LE QUIZ
 function startQuiz(categoryObj) {
     currentQuestions = categoryObj.questions;
     currentCategoryKey = categoryObj.key;
@@ -86,28 +99,37 @@ function checkAnswer(selectedOption, btnElement) {
 
     if (selectedOption === questionObj.answer) {
         score++;
-        btnElement.style.backgroundColor = "#d4edda";
-        btnElement.style.borderColor = "#28a745";
+        styleButton(btnElement, 'correct');
         document.getElementById('feedback-title').innerText = "✅ Bonne réponse !";
         feedbackBox.classList.add('correct');
         feedbackBox.classList.remove('wrong');
     } else {
-        btnElement.style.backgroundColor = "#f8d7da";
-        btnElement.style.borderColor = "#dc3545";
+        styleButton(btnElement, 'wrong');
         document.getElementById('feedback-title').innerText = "❌ Faux !";
         feedbackBox.classList.add('wrong');
         feedbackBox.classList.remove('correct');
         
         allButtons.forEach(btn => {
             if (btn.innerText === questionObj.answer) {
-                btn.style.backgroundColor = "#d4edda";
-                btn.style.borderColor = "#28a745";
+                styleButton(btn, 'correct');
             }
         });
     }
     
     document.getElementById('feedback-text').innerText = questionObj.explanation || "";
     feedbackBox.classList.remove('hidden');
+}
+
+function styleButton(btn, type) {
+    if (type === 'correct') {
+        btn.style.backgroundColor = "#d1fae5";
+        btn.style.borderColor = "#10b981";
+        btn.style.color = "#064e3b";
+    } else {
+        btn.style.backgroundColor = "#fee2e2";
+        btn.style.borderColor = "#ef4444";
+        btn.style.color = "#7f1d1d";
+    }
 }
 
 function nextQuestion() {
@@ -119,38 +141,31 @@ function nextQuestion() {
     }
 }
 
-// --- C'EST ICI QUE J'AI FAIT LE CHANGEMENT ---
+// 4. RÉSULTATS (Logique du score parfait)
 function showResults() {
     document.getElementById('score').innerText = score;
     document.getElementById('total-questions').innerText = currentQuestions.length;
     
     const rewardSection = document.getElementById('reward-section');
-    const pdfLink = document.getElementById('pdf-link');
     const currentCategory = appData.categories.find(c => c.key === currentCategoryKey);
 
-    // On vérifie :
-    // 1. Si un PDF existe
-    // 2. ET (&&) si le score est égal au nombre total de questions (TOUT JUSTE)
+    // CONDITION : Il faut le PDF ET un score parfait (égalité)
     if (currentCategory && currentCategory.pdf && score === currentQuestions.length) {
+        let pdfPath = currentCategory.pdf.startsWith('/') ? currentCategory.pdf.substring(1) : currentCategory.pdf;
         
         rewardSection.innerHTML = `
-            <p>🎁 Bravo ! Un score parfait !<br>Voici ton cadeau :</p>
-            <a id="pdf-link" href="#" download class="download-btn">📄 Télécharger le Cours (PDF)</a>
+            <p>🎁 <strong>MachaAllah ! Score parfait !</strong><br>Voici ton cadeau :</p>
+            <a href="${pdfPath}" download class="download-btn">📄 Télécharger le Cours (PDF)</a>
         `;
         rewardSection.classList.remove('hidden');
-
-        // Configuration du lien
-        let pdfPath = currentCategory.pdf.startsWith('/') ? currentCategory.pdf.substring(1) : currentCategory.pdf;
-        const link = document.getElementById('pdf-link');
-        link.href = pdfPath;
-        link.setAttribute('download', pdfPath);
-
-    } else {
-        // Si pas de PDF ou pas le score parfait
-        rewardSection.classList.remove('hidden'); // On affiche quand même la zone pour encourager
+    } else if (currentCategory && currentCategory.pdf) {
+        // Message d'encouragement s'il a raté de peu
         rewardSection.innerHTML = `
-            <p style="color: #666;">Obtiens <strong>100% de bonnes réponses</strong> pour débloquer le PDF du cours ! 🔒</p>
+            <p style="color: #666; font-size: 0.9rem;">Obtiens <strong>100% de bonnes réponses</strong> pour débloquer le PDF du cours ! 🔒</p>
         `;
+        rewardSection.classList.remove('hidden');
+    } else {
+        rewardSection.classList.add('hidden');
     }
     showScreen('result-screen');
 }
