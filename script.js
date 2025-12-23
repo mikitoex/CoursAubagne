@@ -4,7 +4,7 @@ let currentQuestionIndex = 0;
 let score = 0;
 let currentCategoryKey = "";
 
-// 1. CHARGEMENT (Avec cache-buster pour mise à jour immédiate)
+// 1. CHARGEMENT (Avec anti-cache)
 document.addEventListener('DOMContentLoaded', () => {
     fetch('quiz.json?t=' + Date.now())
         .then(response => {
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-// 2. GÉNÉRER LE MENU (Gère Images ET Emojis)
+// 2. GÉNÉRER LE MENU (Logique Image vs Emoji)
 function generateMenu() {
     const grid = document.getElementById('menu-grid');
     if (!grid) return;
@@ -40,15 +40,28 @@ function generateMenu() {
                 card.onclick = () => alert("En construction !");
             }
 
-            // --- LOGIQUE IMAGE vs EMOJI ---
+            // --- C'EST ICI QUE TOUT SE JOUE ---
             let iconHtml;
-            // Si c'est une image (contient .png, .jpg, etc)
-            if (category.icon && (category.icon.includes('.') || category.icon.includes('/'))) {
-                let imgPath = category.icon.startsWith('/') ? category.icon.substring(1) : category.icon;
+
+            // CAS 1 : Une image est définie (Priorité absolue)
+            if (category.image) {
+                let imgPath = category.image.startsWith('/') ? category.image.substring(1) : category.image;
                 iconHtml = `<img src="${imgPath}" class="category-img" alt="${category.title}">`;
+            
+            // CAS 2 : Un emoji est défini
+            } else if (category.emoji) {
+                iconHtml = `<div class="icon">${category.emoji}</div>`;
+            
+            // CAS 3 : Rien défini (ou vieux format), on met par défaut
             } else {
-                // Sinon c'est un emoji ou texte
-                iconHtml = `<div class="icon">${category.icon || '📝'}</div>`;
+                // Compatibilité avec ton ancien système 'icon' s'il existe encore
+                let oldIcon = category.icon || '📝'; 
+                if (oldIcon.includes('.') || oldIcon.includes('/')) {
+                     let oldPath = oldIcon.startsWith('/') ? oldIcon.substring(1) : oldIcon;
+                     iconHtml = `<img src="${oldPath}" class="category-img" alt="${category.title}">`;
+                } else {
+                     iconHtml = `<div class="icon">${oldIcon}</div>`;
+                }
             }
 
             card.innerHTML = `
@@ -141,7 +154,7 @@ function nextQuestion() {
     }
 }
 
-// 4. RÉSULTATS (Logique du score parfait)
+// 4. RÉSULTATS (Score Parfait = PDF)
 function showResults() {
     document.getElementById('score').innerText = score;
     document.getElementById('total-questions').innerText = currentQuestions.length;
@@ -149,7 +162,7 @@ function showResults() {
     const rewardSection = document.getElementById('reward-section');
     const currentCategory = appData.categories.find(c => c.key === currentCategoryKey);
 
-    // CONDITION : Il faut le PDF ET un score parfait (égalité)
+    // CONDITION : Il faut le PDF ET que le score soit parfait (score === total)
     if (currentCategory && currentCategory.pdf && score === currentQuestions.length) {
         let pdfPath = currentCategory.pdf.startsWith('/') ? currentCategory.pdf.substring(1) : currentCategory.pdf;
         
@@ -159,7 +172,7 @@ function showResults() {
         `;
         rewardSection.classList.remove('hidden');
     } else if (currentCategory && currentCategory.pdf) {
-        // Message d'encouragement s'il a raté de peu
+        // Message d'encouragement
         rewardSection.innerHTML = `
             <p style="color: #666; font-size: 0.9rem;">Obtiens <strong>100% de bonnes réponses</strong> pour débloquer le PDF du cours ! 🔒</p>
         `;
