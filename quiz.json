@@ -1,33 +1,3 @@
 {
-  "categories": [
-    {
-      "icon": "/uploads/schema.png",
-      "key": "a",
-      "title": "MOHAMED",
-      "pdf": "/uploads/cours_annulatifs_ablutions.pdf",
-      "questions": [
-        {
-          "question": "MOHAMED EST QUEL ORIGINE",
-          "options": [
-            "ARABE",
-            "AMERICAIN",
-            "CHINOIS",
-            "RUSSE"
-          ],
-          "answer": "ARABE",
-          "explanation": "parce que c la vie"
-        },
-        {
-          "question": "mohamed est il mohamed",
-          "options": [
-            "oui",
-            "non"
-          ],
-          "answer": "non",
-          "explanation": "mohamed est mohamed ne sont pas pareil car il peut avoir plusieurs mohamed"
-        }
-      ],
-      "emoji": " 💧)"
-    }
-  ]
+  "categories": []
 }
