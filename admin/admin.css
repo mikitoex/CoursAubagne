@@ -1,47 +1,32 @@
-/* --- ALIGNEMENT À GAUCHE (LAYOUT) --- */
-
-/* 1. On dit au site de prendre toute la largeur et de se coller à gauche */
+/* --- 1. ALIGNEMENT À GAUCHE (Ton réglage précédent) --- */
 div[class*="Container"], 
 div[class*="CollectionMain"] {
-    max-width: 100% !important; /* Prend tout l'écran */
-    margin-left: 0 !important;  /* Collé à gauche */
-    margin-right: 0 !important;
-    padding-left: 40px !important; /* Une petite marge pour respirer */
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    padding-left: 40px !important;
 }
 
-/* 2. On limite la largeur des blocs pour que ce soit lisible sur grand écran */
 div[class*="ListItem"] {
     width: 100% !important;
-    max-width: 900px !important; /* Pas plus large que ça */
+    max-width: 900px !important;
     margin-bottom: 20px !important;
-    border-radius: 8px !important; /* Coins arrondis */
-    transition: transform 0.2s ease;
+    border-radius: 8px !important;
+    /* On ajoute une transition pour que l'effet soit fluide */
+    transition: all 0.4s ease;
 }
 
-/* Petit effet quand on passe la souris */
-div[class*="ListItem"]:hover {
-    transform: translateX(5px); /* Se déplace légèrement vers la droite */
-}
-
-/* 3. L'ANIMATION : OUVERTURE VERS LA DROITE */
-/* Quand tu cliques pour ouvrir, le contenu glisse de la gauche */
+/* --- 2. L'ANIMATION D'OUVERTURE --- */
 div[class*="ListItem"] > div:not([class*="TopBar"]) {
     animation: slideRight 0.3s ease-out;
     transform-origin: top left;
 }
 
 @keyframes slideRight {
-    0% {
-        opacity: 0;
-        transform: translateX(-20px); /* Part de la gauche */
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0); /* Arrive à sa place */
-    }
+    0% { opacity: 0; transform: translateX(-20px); }
+    100% { opacity: 1; transform: translateX(0); }
 }
 
-/* 4. LE BOUTON D'AJOUT (On le garde grand pour qu'il soit visible) */
+/* --- 3. LE BOUTON AJOUTER --- */
 button[class*="AddButton"] {
     width: auto !important;
     display: inline-block !important;
@@ -50,8 +35,25 @@ button[class*="AddButton"] {
     margin-top: 20px !important;
 }
 
-/* 5. FIX pour l'alignement des titres */
-h1 {
-    text-align: left !important;
-    margin-left: 0 !important;
+/* =========================================================
+   4. LE "MODE FOCUS" (Anti-Distraction)
+   C'est ça qui va t'aider à ne pas être perdu !
+   ========================================================= */
+
+/* Quand tu cliques DANS une catégorie (elle a le focus)... */
+/* ... toutes les AUTRES catégories deviennent presque invisibles */
+div[role="list"]:has(div[class*="ListItem"]:focus-within) div[class*="ListItem"]:not(:focus-within) {
+    opacity: 0.1 !important;       /* Devient presque transparent (10% visible) */
+    filter: blur(2px) !important;  /* Devient flou */
+    pointer-events: none;          /* On ne peut pas cliquer dessus par erreur */
+    transform: scale(0.98);        /* Rétrécit un peu */
+}
+
+/* Si tu veux en réactiver une autre, passe juste la souris dessus */
+div[role="list"]:has(div[class*="ListItem"]:focus-within) div[class*="ListItem"]:not(:focus-within):hover {
+    opacity: 1 !important;         /* Redevient visible */
+    filter: blur(0) !important;    /* Plus de flou */
+    transform: scale(1);
+    pointer-events: auto;
+    cursor: pointer;
 }
