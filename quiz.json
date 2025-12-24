@@ -75,16 +75,6 @@
           "question": "Combien de catégories d’innovations existent selon leur gravité"
         },
         {
-          "question": "Quelle condition est nécessaire pour qualifier une personne d’innovateur",
-          "options": [
-            "Être âgé",
-            "Être connu publiquement",
-            "Avoir la science que c’est une innovation",
-            "Être critiqué par les gens"
-          ],
-          "answer": "Avoir la science que c’est une innovation"
-        },
-        {
           "options": [
             "Oui toujours",
             "Oui selon la majorité des savants",
