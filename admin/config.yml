@@ -2,89 +2,63 @@ backend:
   name: git-gateway
   branch: main
 
-# Dossier où les images et PDF seront stockés
 media_folder: "/uploads"
 public_folder: "/uploads"
-
-# Configuration de l'affichage
 display_url: "https://aubagnecours.netlify.app"
 locale: "fr" 
 
 collections:
   - name: "quiz"
-    label: "📚 Mes Catégories de Quiz"
+    label: "📚 Mes Cours"
     files:
       - name: "data"
-        label: "Gérer les Quiz"
+        label: "Gérer le Contenu"
         file: "quiz.json"
         fields:
           - {
-              label: "Liste des Catégories", 
+              label: "Liste des Cours", 
               name: "categories", 
               widget: "list", 
               collapsed: false,
-              summary: "📂 {{title}} ({{questions.length}} questions)",
+              summary: "📂 {{title}}",
               fields: [
-                # 1. IDENTIFIANT
-                {
-                  label: "Identifiant Unique (ID)", 
-                  name: "key", 
-                  widget: "string",
-                  hint: "⚠️ Important : Un mot simple minuscule sans espace (ex: priere)."
-                },
+                # --- ÉTAPE 1 : LE LOOK ---
+                {label: "--- 1. APPARENCE DU COURS ---", name: "sep1", widget: "hidden", required: false},
                 
-                # 2. TITRE
-                {
-                  label: "Titre du Quiz", 
-                  name: "title", 
-                  widget: "string"
-                },
+                {label: "Titre du Cours", name: "title", widget: "string"},
+                {label: "Identifiant (un mot simple, ex: priere)", name: "key", widget: "string"},
                 
-                # 3. VISUEL (EMOJI OU IMAGE)
-                {
-                  label: "Option 1 : Emoji", 
-                  name: "emoji", 
-                  widget: "string", 
-                  required: false,
-                  hint: "Écris l'emoji ici (ex: 🕌, 💩) si tu ne mets pas d'image."
-                },
-                {
-                  label: "Option 2 : Image", 
-                  name: "image", 
-                  widget: "image", 
-                  required: false,
-                  hint: "Uploade une image ici (Elle sera prioritaire sur l'emoji)."
-                },
-                
-                # 4. LE PDF
-                {
-                  label: "🎁 Cadeau PDF", 
-                  name: "pdf", 
-                  widget: "file", 
-                  required: false,
-                  hint: "Le fichier à gagner si l'élève a 100% de bonnes réponses."
-                },
+                {label: "Image (Prioritaire)", name: "image", widget: "image", required: false, hint: "L'image s'affiche en premier."},
+                {label: "Emoji (Si pas d'image)", name: "emoji", widget: "string", required: false, hint: "S'affiche seulement si la case Image est vide."},
 
-                # 5. MODE TURBO (LA NOUVEAUTÉ)
+                # --- ÉTAPE 2 : LE CADEAU ---
+                {label: "--- 2. LA RÉCOMPENSE ---", name: "sep2", widget: "hidden", required: false},
+                
+                {label: "Fichier PDF à gagner", name: "pdf", widget: "file", required: false},
+
+                # --- ÉTAPE 3 : LES QUESTIONS ---
+                {label: "--- 3. AJOUTER LES QUESTIONS ---", name: "sep3", widget: "hidden", required: false},
+                
+                # OPTION A : MODE RAPIDE
                 {
-                  label: "⚡ MODE TURBO (Copier-Coller IA)", 
+                  label: "🚀 OPTION A : Coller le code de l'IA ici", 
                   name: "bulk_json", 
                   widget: "text", 
                   required: false,
-                  hint: "Colle ici le bloc JSON que ChatGPT te donne. Si tu remplis ça, ne touche pas à la liste 'Questions' ci-dessous."
+                  hint: "Si tu utilises cette case, ne touche pas à l'Option B en dessous. Pour modifier une question plus tard, tu devras la modifier ici dans le texte."
                 },
                 
-                # 6. LES QUESTIONS (MODE MANUEL)
+                # OPTION B : MODE MANUEL
                 {
-                  label: "❓ Les Questions (Mode Manuel)", 
+                  label: "✍️ OPTION B : Créer à la main (Boutons)", 
                   name: "questions", 
                   widget: "list",
                   collapsed: true, 
                   summary: "{{question}}",
                   fields: [
-                    {label: "La Question", name: "question", widget: "string"},
-                    {label: "Les Choix (2 à 4)", name: "options", widget: "list"},
-                    {label: "La BONNE Réponse", name: "answer", widget: "string", hint: "Copie exactement la bonne réponse."},
+                    {label: "Question", name: "question", widget: "string"},
+                    {label: "Réponses Possibles", name: "options", widget: "list"},
+                    {label: "Bonne Réponse (Copie exacte)", name: "answer", widget: "string"},
                     {label: "Explication", name: "explanation", widget: "text", required: false}
                   ]
                 }
