@@ -1,114 +1,142 @@
-/* --- 1. LE FOND (Bleu Nuit Profond - Style "Space") --- */
-body, #nc-root {
-    background-color: #0f172a !important; /* Slate 900 */
-    color: #f1f5f9 !important; /* Slate 100 */
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-    min-height: 100vh;
+/* =========================================
+   1. FOND GLOBAL & TYPOGRAPHIE
+   ========================================= */
+body, html, #nc-root {
+    /* Le dégradé sombre que tu aimes */
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364) !important;
+    background-attachment: fixed !important; /* Le fond reste fixe quand on scrolle */
+    color: #e0f7fa !important; /* Texte blanc/cyan très pâle */
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* --- 2. LA BARRE DU HAUT --- */
-div[class*="AppHeader"] {
-    background-color: #1e293b !important; /* Slate 800 */
-    border-bottom: 1px solid #334155 !important; /* Slate 700 */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+/* =========================================
+   2. SUPPRESSION DU BLANC (ZONES PRINCIPALES)
+   ========================================= */
+/* Cible le header, la sidebar, le fond de l'éditeur, les listes... TOUT */
+div[class*="AppHeader"],
+div[class*="CollectionTop"],
+div[class*="Sidebar"],
+div[class*="EditorContainer"],
+div[class*="Editor"],
+div[class*="Card"],
+div[class*="ListItem"],
+div[class*="ControlPane"] {
+    background-color: rgba(15, 32, 39, 0.85) !important; /* Fond très sombre semi-transparent */
+    backdrop-filter: blur(10px) !important; /* Effet verre flouté */
+    border-color: rgba(0, 224, 255, 0.2) !important; /* Bordure Cyan subtile */
+    color: white !important;
+    box-shadow: none !important;
 }
 
-/* --- 3. LES BLOCS DE CATÉGORIES (Cartes) --- */
+/* Enlever les ombres blanches moches */
+* {
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+/* =========================================
+   3. LES LISTES (TES COURS)
+   ========================================= */
 div[class*="ListItem"] {
-    background-color: #1e293b !important; /* Carte sombre unie */
-    border: 1px solid #334155 !important; /* Bordure discrète */
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(0, 224, 255, 0.3) !important;
     border-radius: 12px !important;
-    margin-bottom: 16px !important;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2) !important;
-    overflow: hidden !important;
-    transition: all 0.2s ease;
+    margin-bottom: 15px !important;
+    transition: all 0.3s ease;
 }
 
 div[class*="ListItem"]:hover {
-    transform: translateY(-2px);
-    border-color: #6366f1 !important; /* Bordure Indigo au survol */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3) !important;
+    background: rgba(0, 224, 255, 0.1) !important;
+    border-color: #00e0ff !important;
+    transform: translateX(5px);
 }
 
-/* La barre de titre du bloc */
+/* Les titres des cours */
+a, span, button[class*="StyledButton"] {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+/* La barre du haut des listes */
 div[class*="ListItemTopBar"] {
-    background-color: #1e293b !important;
-    padding: 16px !important;
+    background: transparent !important;
 }
 
-/* Le texte du titre (ex: "La Prière") */
-button[class*="StyledButton"] {
-    color: #e2e8f0 !important; /* Blanc cassé */
-    font-size: 1.1em !important;
-    font-weight: 600 !important;
-}
-
-/* --- 4. LE GROS BOUTON "+" (AJOUTER) --- */
-button[class*="AddButton"] {
-    /* Dégradé Bleu vers Violet (Très moderne) */
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important;
-    color: white !important;
-    width: 100% !important;
-    padding: 16px !important;
-    margin-top: 30px !important;
-    border-radius: 12px !important;
-    font-size: 1em !important;
-    font-weight: 700 !important;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border: none !important;
-    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); /* Ombre violette */
-    cursor: pointer !important;
-}
-button[class*="AddButton"]:hover {
-    filter: brightness(1.1); /* S'illumine au survol */
-    transform: scale(1.01);
-}
-
-/* --- 5. LES AUTRES BOUTONS (PUBLISH, ETC.) --- */
-button[class*="Button"] {
-    border-radius: 8px !important;
-    font-weight: 600 !important;
-    text-transform: none !important; /* Pas de majuscules forcées */
-}
-/* Bouton Publier */
-button[class*="PublishButton"] {
-    background-color: #10b981 !important; /* Vert émeraude propre */
-    color: white !important;
-}
-
-/* --- 6. CHAMPS DE TEXTE (INPUTS) --- */
+/* =========================================
+   4. LES CHAMPS DE TEXTE (INPUTS)
+   ========================================= */
+/* C'est souvent ici que le blanc reste caché. On le tue. */
 input, textarea, div[class*="Widget"] {
-    background-color: #0f172a !important; /* Fond très sombre */
-    border: 1px solid #334155 !important;
-    color: white !important;
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    border: 1px solid rgba(0, 224, 255, 0.3) !important;
+    color: #00e0ff !important; /* Texte Cyan quand tu écris */
     border-radius: 8px !important;
     padding: 12px !important;
 }
 
 input:focus, textarea:focus {
-    border-color: #8b5cf6 !important; /* Bordure violette au clic */
-    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2) !important;
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    border-color: #00e0ff !important;
+    box-shadow: 0 0 15px rgba(0, 224, 255, 0.2) !important;
     outline: none !important;
 }
 
-/* --- 7. TEXTES ET LABELS --- */
-label {
-    color: #94a3b8 !important; /* Gris bleuté pour les titres */
-    font-size: 0.85em !important;
+/* =========================================
+   5. LES BOUTONS
+   ========================================= */
+/* Bouton "Ajouter" (Vert) */
+button[class*="AddButton"] {
+    background: linear-gradient(45deg, #00e0ff, #00bcd4) !important;
+    color: #0f2027 !important; /* Texte sombre sur bouton clair */
+    font-weight: 900 !important;
     text-transform: uppercase;
-    font-weight: 700 !important;
-    margin-top: 20px !important;
-    margin-bottom: 8px !important;
-    display: block !important;
+    padding: 15px !important;
+    border-radius: 50px !important;
+    border: none !important;
+    box-shadow: 0 0 20px rgba(0, 224, 255, 0.4) !important;
 }
 
-/* Liens */
-a { color: #60a5fa !important; }
+/* Bouton Publier (Haut droite) */
+button[class*="PublishButton"] {
+    background-color: #10b981 !important;
+    color: white !important;
+}
 
-/* --- 8. NETTOYAGE --- */
-* { border-color: transparent !important; }
-/* On remet les bordures essentielles */
-div[class*="ListItem"], input, textarea, div[class*="AppHeader"] { 
-    border-color: #334155 !important; 
+/* Tous les autres boutons gris -> Transparents */
+button[class*="Button"] {
+    background-color: rgba(255,255,255,0.1) !important;
+    color: white !important;
+    border: none !important;
+}
+
+/* =========================================
+   6. NETTOYAGE FINAL
+   ========================================= */
+/* Labels (Titres des questions) */
+label {
+    color: #00e0ff !important; /* Cyan */
+    text-transform: uppercase;
+    font-size: 0.8rem !important;
+    letter-spacing: 1px;
+    margin-top: 20px !important;
+}
+
+/* La barre latérale de gauche (Sidebar) */
+a[class*="NavLink"] {
+    color: #aaa !important;
+}
+a[class*="NavLink"][class*="Active"] {
+    background-color: rgba(0, 224, 255, 0.1) !important;
+    color: #00e0ff !important;
+    border-left: 3px solid #00e0ff !important;
+}
+
+/* Si un élément résiste et reste blanc, on le force en noir */
+div {
+    border-color: transparent !important; /* Enlève les bordures grises par défaut */
+}
+/* On remet les bordures seulement sur nos éléments */
+div[class*="ListItem"], input, textarea, div[class*="AppHeader"] {
+    border-color: rgba(255, 255, 255, 0.1) !important;
 }
