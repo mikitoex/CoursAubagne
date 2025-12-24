@@ -1,134 +1,117 @@
 /* ============================================================
-   THEME "DEEP BLUE DASHBOARD" - CORRECTIF AGRESSIF
+   THEME "SIDEBAR FLOW" - ALIGNEMENT GAUCHE
    ============================================================ */
 
-/* 1. RESET TOTAL : On force tout le texte en blanc par défaut */
+/* 1. RESET & FOND */
 * {
     color: #e2e8f0 !important;
-    border-color: #334155 !important; /* Couleur des bordures */
+    border-color: #334155 !important;
 }
 
-/* 2. FOND PRINCIPAL (Le Bleu Nuit Profond de ton image) */
 body, #nc-root {
-    background-color: #0f172a !important; /* Slate 900 */
+    background-color: #0f172a !important; /* Bleu nuit */
     min-height: 100vh;
 }
 
-/* 3. BARRE DU HAUT FIXE */
-div[class*="AppHeader"] {
-    background-color: #1e293b !important; /* Slate 800 */
-    border-bottom: 1px solid #334155 !important;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+/* 2. FORCER L'ALIGNEMENT À GAUCHE (Au lieu du centre) */
+/* Cible le conteneur principal qui centre tout par défaut */
+div[class*="Container"], 
+div[class*="CollectionMain"] {
+    max-width: 100% !important; /* Prend toute la largeur */
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 20px !important; /* Petite marge à gauche */
+    padding-right: 20px !important;
 }
 
-/* 4. NETTOYAGE DES ZONES BLANCHES/GRISES (Le correctif important) */
-/* On rend transparents tous les conteneurs intermédiaires qui font des barres grises moches */
-div[class*="CollectionTop"],
-div[class*="EditorContainer"],
-div[class*="ControlPane"],
-div[class*="ObjectWidget"],
-div[class*="ObjectControl"], 
-div[class*="SortableList"] {
-    background: transparent !important;
-    box-shadow: none !important;
-}
-
-/* 5. LES "CARTES" (Tes catégories) */
-/* C'est ici qu'on met le fond bleu un peu plus clair (#1e293b) */
+/* 3. LES BLOCS DE CATÉGORIES */
 div[class*="ListItem"] {
     background-color: #1e293b !important;
     border: 1px solid #334155 !important;
     border-radius: 8px !important;
     margin-bottom: 16px !important;
-    padding: 0 !important; /* On gère le padding nous-mêmes */
-    overflow: hidden;
+    /* Largeur fixe ou fluide selon tes goûts : */
+    width: 100% !important; 
+    max-width: 800px !important; /* On limite pour pas que ce soit trop large sur grand écran */
 }
 
-/* La barre de titre (celle qui est grise sur ta capture) -> On la met en bleu */
+/* 4. ANIMATION : OUVERTURE DE GAUCHE À DROITE */
+/* Cible le contenu qui apparaît quand on ouvre le bloc */
+div[class*="ListItem"] > div:not([class*="TopBar"]) {
+    animation: slideRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: left center;
+}
+
+@keyframes slideRight {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px); /* Part de la gauche */
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0); /* Arrive à sa place */
+    }
+}
+
+/* 5. STYLE DE LA BARRE DE TITRE */
 div[class*="ListItemTopBar"] {
-    background-color: #26334d !important; /* Un bleu légèrement différent pour distinguer */
+    background-color: #26334d !important;
     border-bottom: 1px solid #334155 !important;
     padding: 12px 20px !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* Le titre "2 les catégories..." */
+/* Titre en bleu clair */
 button[class*="StyledButton"] {
+    color: #93c5fd !important;
     font-size: 1rem !important;
     font-weight: 600 !important;
-    color: #93c5fd !important; /* Bleu clair */
 }
 
-/* 6. LES CHAMPS DE TEXTE (INPUTS) - Comme sur ton image */
+/* 6. STYLE DES CHAMPS (Inputs) */
 input[type="text"], textarea, div[class*="Widget"] {
-    background-color: #0f172a !important; /* Fond très sombre (presque noir) */
+    background-color: #0f172a !important;
     border: 1px solid #334155 !important;
     border-radius: 6px !important;
     color: white !important;
-    padding: 10px 15px !important;
-    margin-top: 5px !important;
+    padding: 10px !important;
 }
 
 input:focus, textarea:focus {
-    border-color: #3b82f6 !important; /* Bleu vif au clic */
+    border-color: #3b82f6 !important;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
-    outline: none !important;
 }
 
-/* 7. LES BOUTONS (Le Bleu Vif #3b82f6) */
-/* Bouton "Ajouter" */
+/* 7. BOUTONS */
 button[class*="AddButton"] {
     background-color: #3b82f6 !important;
     color: white !important;
     border-radius: 6px !important;
     padding: 10px 20px !important;
     font-weight: 600 !important;
-    border: none !important;
-    text-transform: none !important; /* Pas de majuscules forcées */
+    margin-top: 20px !important;
     display: inline-block !important;
     width: auto !important;
-    margin-top: 15px !important;
 }
-
 button[class*="AddButton"]:hover {
     background-color: #2563eb !important;
 }
 
-/* Bouton Publier (en haut) */
-button[class*="PublishButton"] {
-    background-color: #3b82f6 !important;
-}
-
-/* 8. LES TITRES DES CHAMPS (Labels) */
-label {
-    color: #94a3b8 !important; /* Gris bleuté */
-    font-size: 0.85rem !important;
-    font-weight: 600 !important;
-    margin-bottom: 4px !important;
-    display: block !important;
-    text-transform: none !important; /* Enlève le style majuscule agressif */
-}
-
-/* 9. CORRECTIONS SPÉCIFIQUES POUR TA CAPTURE */
-
-/* Enlever le fond gris derrière "Identifiant", "Image", etc */
-div[id*="field-"] {
-    margin-bottom: 20px !important;
-}
-
-/* La barre latérale à gauche */
-div[class*="Sidebar"] {
-    background-color: #1e293b !important;
-    border-right: 1px solid #334155 !important;
-}
-a[class*="NavLink"] {
-    color: #cbd5e1 !important;
-}
-a[class*="NavLink"][class*="Active"] {
-    background-color: #3b82f6 !important;
-    color: white !important;
-}
-
-/* Cacher les ombres blanches parasites */
-div, span, button {
+/* 8. NETTOYAGE DES ZONES PARASITES */
+div[class*="CollectionTop"],
+div[class*="EditorContainer"] {
+    background: transparent !important;
     box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* Labels */
+label {
+    color: #94a3b8 !important;
+    text-transform: uppercase;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    margin-top: 15px !important;
 }
