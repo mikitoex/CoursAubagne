@@ -1,142 +1,83 @@
-/* =========================================
-   1. FOND GLOBAL & TYPOGRAPHIE
-   ========================================= */
-body, html, #nc-root {
-    /* Le dégradé sombre que tu aimes */
+/* --- FORCER LE MODE SOMBRE --- */
+
+/* 1. Le fond principal en dégradé sombre */
+body, #nc-root {
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364) !important;
-    background-attachment: fixed !important; /* Le fond reste fixe quand on scrolle */
-    color: #e0f7fa !important; /* Texte blanc/cyan très pâle */
+    color: #fff !important;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
-    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
 }
 
-/* =========================================
-   2. SUPPRESSION DU BLANC (ZONES PRINCIPALES)
-   ========================================= */
-/* Cible le header, la sidebar, le fond de l'éditeur, les listes... TOUT */
-div[class*="AppHeader"],
+/* 2. La barre du haut (Header) */
+div[class*="AppHeader"] {
+    background-color: rgba(0, 0, 0, 0.5) !important; /* Noir transparent */
+    border-bottom: 1px solid rgba(0, 224, 255, 0.3) !important; /* Bordure Cyan discrète */
+    backdrop-filter: blur(10px); /* Effet flou moderne */
+}
+
+/* 3. Les conteneurs (Cartes blanches) -> Devenez sombres et transparents ! */
 div[class*="CollectionTop"],
-div[class*="Sidebar"],
 div[class*="EditorContainer"],
-div[class*="Editor"],
+div[class*="Sidebar"],
 div[class*="Card"],
-div[class*="ListItem"],
-div[class*="ControlPane"] {
-    background-color: rgba(15, 32, 39, 0.85) !important; /* Fond très sombre semi-transparent */
-    backdrop-filter: blur(10px) !important; /* Effet verre flouté */
-    border-color: rgba(0, 224, 255, 0.2) !important; /* Bordure Cyan subtile */
-    color: white !important;
-    box-shadow: none !important;
-}
-
-/* Enlever les ombres blanches moches */
-* {
-    box-shadow: none !important;
-    text-shadow: none !important;
-}
-
-/* =========================================
-   3. LES LISTES (TES COURS)
-   ========================================= */
 div[class*="ListItem"] {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid rgba(0, 224, 255, 0.3) !important;
-    border-radius: 12px !important;
-    margin-bottom: 15px !important;
+    background: rgba(255, 255, 255, 0.08) !important; /* Blanc très transparent */
+    border: 1px solid rgba(0, 224, 255, 0.3) !important; /* Bordure Cyan */
+    border-radius: 15px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important; /* Ombre portée */
+    color: white !important;
+}
+
+/* 4. Les boutons principaux (Cyan) */
+button[class*="Button"],
+a[class*="Button"] {
+    background-color: #00e0ff !important;
+    color: #0f2027 !important; /* Texte foncé sur fond clair */
+    border: none !important;
+    border-radius: 25px !important;
+    font-weight: bold !important;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0, 224, 255, 0.4) !important;
     transition: all 0.3s ease;
 }
 
-div[class*="ListItem"]:hover {
-    background: rgba(0, 224, 255, 0.1) !important;
-    border-color: #00e0ff !important;
-    transform: translateX(5px);
+/* Effet au survol des boutons */
+button[class*="Button"]:hover,
+a[class*="Button"]:hover {
+    background-color: #00bcd4 !important;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 224, 255, 0.6) !important;
 }
 
-/* Les titres des cours */
-a, span, button[class*="StyledButton"] {
-    color: #ffffff !important;
-    font-weight: 600 !important;
-}
-
-/* La barre du haut des listes */
-div[class*="ListItemTopBar"] {
-    background: transparent !important;
-}
-
-/* =========================================
-   4. LES CHAMPS DE TEXTE (INPUTS)
-   ========================================= */
-/* C'est souvent ici que le blanc reste caché. On le tue. */
+/* 5. Les champs de texte (Inputs) */
 input, textarea, div[class*="Widget"] {
-    background-color: rgba(0, 0, 0, 0.4) !important;
-    border: 1px solid rgba(0, 224, 255, 0.3) !important;
-    color: #00e0ff !important; /* Texte Cyan quand tu écris */
-    border-radius: 8px !important;
+    background-color: rgba(0, 0, 0, 0.3) !important; /* Fond sombre */
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    border-radius: 10px !important;
     padding: 12px !important;
 }
 
+/* Quand on clique dans un champ */
 input:focus, textarea:focus {
-    background-color: rgba(0, 0, 0, 0.6) !important;
     border-color: #00e0ff !important;
-    box-shadow: 0 0 15px rgba(0, 224, 255, 0.2) !important;
+    box-shadow: 0 0 10px rgba(0, 224, 255, 0.3) !important;
     outline: none !important;
 }
 
-/* =========================================
-   5. LES BOUTONS
-   ========================================= */
-/* Bouton "Ajouter" (Vert) */
-button[class*="AddButton"] {
-    background: linear-gradient(45deg, #00e0ff, #00bcd4) !important;
-    color: #0f2027 !important; /* Texte sombre sur bouton clair */
-    font-weight: 900 !important;
-    text-transform: uppercase;
-    padding: 15px !important;
-    border-radius: 50px !important;
-    border: none !important;
-    box-shadow: 0 0 20px rgba(0, 224, 255, 0.4) !important;
-}
-
-/* Bouton Publier (Haut droite) */
-button[class*="PublishButton"] {
-    background-color: #10b981 !important;
-    color: white !important;
-}
-
-/* Tous les autres boutons gris -> Transparents */
-button[class*="Button"] {
-    background-color: rgba(255,255,255,0.1) !important;
-    color: white !important;
-    border: none !important;
-}
-
-/* =========================================
-   6. NETTOYAGE FINAL
-   ========================================= */
-/* Labels (Titres des questions) */
-label {
-    color: #00e0ff !important; /* Cyan */
-    text-transform: uppercase;
-    font-size: 0.8rem !important;
-    letter-spacing: 1px;
-    margin-top: 20px !important;
-}
-
-/* La barre latérale de gauche (Sidebar) */
-a[class*="NavLink"] {
-    color: #aaa !important;
-}
-a[class*="NavLink"][class*="Active"] {
-    background-color: rgba(0, 224, 255, 0.1) !important;
+/* 6. Les titres et labels (en Cyan) */
+h1, h2, h3, label {
     color: #00e0ff !important;
-    border-left: 3px solid #00e0ff !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    font-weight: bold !important;
 }
 
-/* Si un élément résiste et reste blanc, on le force en noir */
-div {
-    border-color: transparent !important; /* Enlève les bordures grises par défaut */
+/* 7. Nettoyage final */
+/* Enlever les ombres blanches moches par défaut */
+* {
+    box-shadow: none !important;
 }
-/* On remet les bordures seulement sur nos éléments */
-div[class*="ListItem"], input, textarea, div[class*="AppHeader"] {
-    border-color: rgba(255, 255, 255, 0.1) !important;
+/* Remettre nos belles ombres sur les éléments importants */
+button, div[class*="Card"], div[class*="ListItem"] {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
 }
