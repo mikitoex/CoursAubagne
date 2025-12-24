@@ -1,21 +1,111 @@
 {
   "categories": [
     {
-      "title": "L'’innovation",
-      "key": "Jurisprudence",
-      "emoji": "🕌",
+      "key": "1",
+      "title": "Jurisprudence : l’innovation (Al-Bid‘a)",
       "questions": [
         {
-          "question": "Dans la croyance, que signifie suivre la Sunna ?",
+          "question": "Dans la croyance que signifie suivre la Sunna",
           "options": [
-            "A. Suivre une école juridique précise",
-            "B. Croire et pratiquer ce que le Prophète ﷺ a transmis",
-            "C. Accomplir uniquement les actes obligatoires",
-            "D. Suivre les traditions culturelles musulmanes"
+            "Suivre une école juridique précise",
+            "Croire et pratiquer ce que le Prophète ﷺ a transmis",
+            "Accomplir uniquement les actes obligatoires",
+            "Suivre les traditions culturelles musulmanes"
           ],
-          "answer": "B. Croire et pratiquer ce que le Prophète ﷺ a transmis"
+          "answer": "Croire et pratiquer ce que le Prophète ﷺ a transmis"
+        },
+        {
+          "question": "Dans la jurisprudence la Sunna est",
+          "options": [
+            "Une obligation religieuse",
+            "Un acte interdit",
+            "Une adoration récompensée mais non obligatoire",
+            "Une innovation acceptée"
+          ],
+          "answer": "Une adoration récompensée mais non obligatoire"
+        },
+        {
+          "question": "Dans la religion qu’est ce qu’une bid‘ah",
+          "options": [
+            "Une coutume ancienne",
+            "Une invention technique",
+            "Un acte une parole ou une croyance pratiqué en espérant une récompense sans preuve",
+            "Une erreur involontaire"
+          ],
+          "answer": "Un acte une parole ou une croyance pratiqué en espérant une récompense sans preuve"
+        },
+        {
+          "question": "Selon le hadith rapporté par Muslim toute innovation est",
+          "options": [
+            "Acceptable si l’intention est bonne",
+            "Une innovation louable",
+            "Un égarement",
+            "Une Sunna oubliée"
+          ],
+          "answer": "Un égarement"
+        },
+        {
+          "question": "Quel est l’un des dangers majeurs de l’innovation",
+          "options": [
+            "Elle facilite la religion",
+            "Elle divise la communauté",
+            "Elle renforce l’unité",
+            "Elle est sans conséquence"
+          ],
+          "answer": "Elle divise la communauté"
+        },
+        {
+          "question": "Quelle innovation est la plus dangereuse selon les savants de la Sunna",
+          "options": [
+            "L’innovation sans fondement",
+            "L’innovation culturelle",
+            "L’innovation d’une Sunna modifiée",
+            "L’innovation involontaire"
+          ],
+          "answer": "L’innovation d’une Sunna modifiée"
+        },
+        {
+          "options": [
+            "Deux",
+            "Trois",
+            "Cinq",
+            "Sept"
+          ],
+          "answer": "Trois",
+          "question": "Combien de catégories d’innovations existent selon leur gravité"
+        },
+        {
+          "question": "Quelle condition est nécessaire pour qualifier une personne d’innovateur",
+          "options": [
+            "Être âgé",
+            "Être connu publiquement",
+            "Avoir la science que c’est une innovation",
+            "Être critiqué par les gens"
+          ],
+          "answer": "Avoir la science que c’est une innovation"
+        },
+        {
+          "options": [
+            "Oui toujours",
+            "Oui selon la majorité des savants",
+            "Non toute innovation est un égarement",
+            "Oui si elle rapproche d’Allah"
+          ],
+          "question": "Selon le cours existe t il une bonne innovation religieuse",
+          "answer": "Non toute innovation est un égarement"
+        },
+        {
+          "question": "Quel est le premier groupe à avoir introduit une innovation dans l’islam",
+          "options": [
+            "Les Chiites",
+            "Les Khawarij",
+            "Les Mu‘tazilites",
+            "Les Omeyyades"
+          ],
+          "answer": "Les Khawarij"
         }
-      ]
+      ],
+      "pdf": "/uploads/cours_annulatifs_ablutions.pdf"
     }
   ]
 }
