@@ -1,66 +1,85 @@
-
-/* --- LE FOND (DÉGRADÉ FONCÉ) --- */
+/* --- 1. FOND GÉNÉRAL (Mode Sombre Force) --- */
 body, #nc-root {
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364) !important;
-    color: #fff !important;
+    background-color: #0f2027 !important;
+    background-image: linear-gradient(135deg, #0f2027, #203a43, #2c5364) !important;
+    color: #ffffff !important;
     font-family: 'Segoe UI', sans-serif !important;
 }
 
-/* --- LA BARRE DU HAUT --- */
-div[class*="AppHeader"] {
-    background-color: rgba(0, 0, 0, 0.3) !important;
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+/* --- 2. LES "BLOCS" DE CATÉGORIES --- */
+/* On transforme chaque ligne de la liste en une "Carte" */
+div[class*="ListItem"] {
+    background: rgba(255, 255, 255, 0.05) !important; /* Fond transparent */
+    border: 1px solid rgba(0, 224, 255, 0.3) !important; /* Bordure Cyan */
+    border-radius: 15px !important;
+    margin-bottom: 20px !important; /* Espace entre les blocs */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+    overflow: hidden !important;
+    transition: transform 0.2s;
 }
 
-/* --- LES BOUTONS (BLEU CYAN) --- */
-button, a[class*="Button"] {
-    background-color: #00e0ff !important;
-    color: #0f2027 !important;
-    border-radius: 25px !important;
-    border: none !important;
+div[class*="ListItem"]:hover {
+    transform: translateY(-2px);
+    border-color: #00e0ff !important;
+}
+
+/* La barre du titre du bloc (là où c'est écrit "📂 La Prière") */
+div[class*="ListItemTopBar"] {
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    padding: 15px !important;
+    cursor: pointer !important;
+}
+
+/* Le titre du bloc */
+button[class*="StyledButton"] {
+    color: #00e0ff !important; /* Texte Cyan */
+    font-size: 1.1em !important;
+    font-weight: bold !important;
+}
+
+/* --- 3. LE BOUTON "+" (AJOUTER UNE CATÉGORIE) --- */
+/* On cible le bouton "Add categories" */
+button[class*="AddButton"] {
+    background-color: #10b981 !important; /* Vert fluo */
+    color: white !important;
+    width: 100% !important; /* Prend toute la largeur */
+    padding: 15px !important;
+    margin-top: 20px !important;
+    border-radius: 15px !important;
+    font-size: 1.2em !important;
     font-weight: bold !important;
     text-transform: uppercase;
-    box-shadow: 0 4px 15px rgba(0, 224, 255, 0.3);
-    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+button[class*="AddButton"]:hover {
+    background-color: #059669 !important;
+    transform: scale(1.02);
 }
 
-button:hover, a[class*="Button"]:hover {
-    background-color: #00bcd4 !important;
-    transform: scale(1.05);
-}
-
-/* --- LES CARTES ET ZONES DE TEXTE --- */
-/* On cible les zones blanches pour les rendre transparentes/sombres */
-div[class*="CollectionTop"], 
-div[class*="EditorContainer"],
-div[class*="Sidebar"],
-div[class*="Card"] {
-    background: rgba(255, 255, 255, 0.05) !important;
-    backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 20px !important;
-    color: white !important;
-}
-
-/* --- LES CHAMPS DE TEXTE (INPUTS) --- */
+/* --- 4. ZONES DE TEXTE (Pour éviter le blanc sur blanc) --- */
 input, textarea, div[class*="Widget"] {
-    background-color: rgba(0, 0, 0, 0.2) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: rgba(0, 0, 0, 0.3) !important;
     color: white !important;
-    border-radius: 10px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+input:focus, textarea:focus {
+    border-color: #00e0ff !important;
+    outline: none !important;
 }
 
-/* --- TEXTE ET LIENS --- */
-h1, h2, h3, label {
+/* --- 5. NETTOYAGE --- */
+/* Cacher les bordures grises par défaut */
+* { border-color: transparent !important; }
+/* Remettre les bordures que pour nos blocs */
+div[class*="ListItem"], input, textarea { border-color: rgba(255, 255, 255, 0.1) !important; }
+
+/* Labels (Titres des champs) */
+label {
     color: #00e0ff !important;
-}
-
-a {
-    color: #00e0ff !important;
-}
-
-/* Cacher les bordures grises moches */
-* {
-    border-color: rgba(255, 255, 255, 0.1) !important;
+    margin-top: 15px !important;
+    font-size: 0.9em !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
