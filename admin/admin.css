@@ -4,82 +4,107 @@ body, #nc-root {
     background-image: linear-gradient(135deg, #0f2027, #203a43, #2c5364) !important;
     color: #ffffff !important;
     font-family: 'Segoe UI', sans-serif !important;
+    min-height: 100vh;
 }
 
-/* --- 2. LES "BLOCS" DE CATÉGORIES --- */
-/* On transforme chaque ligne de la liste en une "Carte" */
+/* --- 2. BARRE DU HAUT (Transparente) --- */
+div[class*="AppHeader"] {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* --- 3. LES "BLOCS" DE CATÉGORIES (Cartes) --- */
+/* Transforme la liste en cartes séparées */
 div[class*="ListItem"] {
     background: rgba(255, 255, 255, 0.05) !important; /* Fond transparent */
-    border: 1px solid rgba(0, 224, 255, 0.3) !important; /* Bordure Cyan */
+    border: 1px solid rgba(0, 224, 255, 0.3) !important; /* Bordure Cyan fine */
     border-radius: 15px !important;
     margin-bottom: 20px !important; /* Espace entre les blocs */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
     overflow: hidden !important;
-    transition: transform 0.2s;
+    transition: all 0.2s ease;
 }
 
 div[class*="ListItem"]:hover {
-    transform: translateY(-2px);
-    border-color: #00e0ff !important;
+    transform: translateY(-2px); /* Monte un peu au survol */
+    border-color: #00e0ff !important; /* Devient Cyan fluo */
+    box-shadow: 0 10px 20px rgba(0, 224, 255, 0.1) !important;
 }
 
-/* La barre du titre du bloc (là où c'est écrit "📂 La Prière") */
+/* La barre du titre du bloc */
 div[class*="ListItemTopBar"] {
-    background-color: rgba(0, 0, 0, 0.4) !important;
+    background-color: rgba(0, 0, 0, 0.2) !important;
     padding: 15px !important;
     cursor: pointer !important;
 }
 
-/* Le titre du bloc */
+/* Le texte du titre (ex: "La Prière") */
 button[class*="StyledButton"] {
-    color: #00e0ff !important; /* Texte Cyan */
-    font-size: 1.1em !important;
+    color: #00e0ff !important;
+    font-size: 1.2em !important;
     font-weight: bold !important;
 }
 
-/* --- 3. LE BOUTON "+" (AJOUTER UNE CATÉGORIE) --- */
-/* On cible le bouton "Add categories" */
+/* --- 4. LE BOUTON "+" (AJOUTER UNE CATÉGORIE) --- */
 button[class*="AddButton"] {
     background-color: #10b981 !important; /* Vert fluo */
     color: white !important;
-    width: 100% !important; /* Prend toute la largeur */
+    width: 100% !important; /* Largeur totale */
     padding: 15px !important;
-    margin-top: 20px !important;
+    margin-top: 30px !important;
     border-radius: 15px !important;
-    font-size: 1.2em !important;
-    font-weight: bold !important;
+    font-size: 1.1em !important;
+    font-weight: 800 !important;
     text-transform: uppercase;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    letter-spacing: 1px;
+    border: none !important;
+    cursor: pointer !important;
+    box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
 }
 button[class*="AddButton"]:hover {
     background-color: #059669 !important;
     transform: scale(1.02);
 }
 
-/* --- 4. ZONES DE TEXTE (Pour éviter le blanc sur blanc) --- */
+/* --- 5. BOUTONS D'ACTION (PUBLISH) --- */
+button[class*="Button"] {
+    border-radius: 25px !important;
+    font-weight: bold !important;
+}
+/* Le bouton Publish en Cyan */
+button[class*="PublishButton"] {
+    background-color: #00e0ff !important;
+    color: #0f2027 !important;
+}
+
+/* --- 6. ZONES DE TEXTE & INPUTS --- */
 input, textarea, div[class*="Widget"] {
     background: rgba(0, 0, 0, 0.3) !important;
     color: white !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px !important;
+    padding: 10px !important;
 }
 input:focus, textarea:focus {
     border-color: #00e0ff !important;
+    box-shadow: 0 0 10px rgba(0, 224, 255, 0.2) !important;
     outline: none !important;
 }
-
-/* --- 5. NETTOYAGE --- */
-/* Cacher les bordures grises par défaut */
-* { border-color: transparent !important; }
-/* Remettre les bordures que pour nos blocs */
-div[class*="ListItem"], input, textarea { border-color: rgba(255, 255, 255, 0.1) !important; }
 
 /* Labels (Titres des champs) */
 label {
     color: #00e0ff !important;
-    margin-top: 15px !important;
+    margin-top: 20px !important;
+    margin-bottom: 5px !important;
     font-size: 0.9em !important;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    font-weight: bold !important;
+}
+
+/* --- 7. NETTOYAGE --- */
+* { border-color: transparent !important; }
+/* On remet les bordures seulement où on veut */
+div[class*="ListItem"], input, textarea, div[class*="AppHeader"] { 
+    border-color: rgba(255, 255, 255, 0.1) !important; 
 }
