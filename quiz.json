@@ -1,3 +1,21 @@
 {
-  "categories": []
+  "categories": [
+    {
+      "title": "L'’innovation",
+      "key": "Jurisprudence",
+      "emoji": "🕌",
+      "questions": [
+        {
+          "question": "Dans la croyance, que signifie suivre la Sunna ?",
+          "options": [
+            "A. Suivre une école juridique précise",
+            "B. Croire et pratiquer ce que le Prophète ﷺ a transmis",
+            "C. Accomplir uniquement les actes obligatoires",
+            "D. Suivre les traditions culturelles musulmanes"
+          ],
+          "answer": "B. Croire et pratiquer ce que le Prophète ﷺ a transmis"
+        }
+      ]
+    }
+  ]
 }
