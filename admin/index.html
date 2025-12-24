@@ -7,15 +7,88 @@
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   
   <link rel="stylesheet" href="admin.css">
+
+  <style>
+    /* STYLE DU BOUTON MAGIQUE */
+    #magic-prompt-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      background-color: #000000; /* Carré NOIR */
+      color: white;
+      border-radius: 8px;
+      border: 1px solid #333;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 9999; /* Toujours au-dessus */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: all 0.2s;
+    }
+
+    #magic-prompt-btn:hover {
+      transform: scale(1.1);
+      background-color: #222;
+    }
+
+    /* Petite bulle d'info au survol */
+    #magic-prompt-btn::after {
+      content: "Copier le Prompt IA";
+      position: absolute;
+      left: 60px;
+      background: #333;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      opacity: 0;
+      pointer-events: none;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+    
+    #magic-prompt-btn:hover::after {
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  
+
   <script>
-    CMS.registerPreviewStyle("admdin.css");
+    // Ton texte EXACT
+    const MY_PROMPT = `Ton objectif : Créer un quiz de révision simple et clair pour des élèves, basé UNIQUEMENT sur le fichier que je te joins.
+RÈGLES DE STYLE (TRES IMPORTANT) :1. Parle français naturellement. N'utilise JAMAIS d'expressions comme 'Selon le document', 'Le texte mentionne', 'D'après l'auteur'. Pose la question directement.2. Fais des questions courtes et faciles à lire.3. Les options de réponse doivent être simples. Pas de phrases compliquées.4. L'explication doit être courte (1 phrase) et instructive.
+FORMAT TECHNIQUE :Donne-moi UNIQUEMENT le code JSON brut (sans phrase d'intro, sans balises markdown).Structure obligatoire :[{"question": "Question simple ?", "options": ["Choix A", "Choix B", "Choix C"], "answer": "Choix A", "explanation": "C'est la bonne réponse car..."}]
+Génère 10 questions maintenant.`;
+
+    // Création du bouton
+    const btn = document.createElement('button');
+    btn.id = 'magic-prompt-btn';
+    btn.innerHTML = '🤖'; // L'icône robot
+    btn.title = "Clique pour copier le prompt IA";
+    
+    // Action au clic
+    btn.onclick = function() {
+      navigator.clipboard.writeText(MY_PROMPT).then(function() {
+        // Effet visuel quand c'est copié
+        btn.style.backgroundColor = '#10b981'; // Vert
+        btn.innerHTML = '✅';
+        
+        // On remet normal après 1.5 seconde
+        setTimeout(() => {
+          btn.style.backgroundColor = '#000000';
+          btn.innerHTML = '🤖';
+        }, 1500);
+      });
+    };
+
+    // Ajout à la page
+    document.body.appendChild(btn);
   </script>
 </body>
 </html>
-
-
-
