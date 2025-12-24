@@ -1,84 +1,134 @@
-/* --- FOND GÉNÉRAL ET TEXTE --- */
+/* ============================================================
+   THEME "DEEP BLUE DASHBOARD" - CORRECTIF AGRESSIF
+   ============================================================ */
+
+/* 1. RESET TOTAL : On force tout le texte en blanc par défaut */
+* {
+    color: #e2e8f0 !important;
+    border-color: #334155 !important; /* Couleur des bordures */
+}
+
+/* 2. FOND PRINCIPAL (Le Bleu Nuit Profond de ton image) */
 body, #nc-root {
-    background-color: #1a1f2c !important; /* Bleu foncé de fond */
-    color: #e2e8f0 !important; /* Texte clair */
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+    background-color: #0f172a !important; /* Slate 900 */
+    min-height: 100vh;
 }
 
-/* --- BARRE DU HAUT (Header) --- */
+/* 3. BARRE DU HAUT FIXE */
 div[class*="AppHeader"] {
-    background-color: #232936 !important; /* Bleu un peu plus clair */
+    background-color: #1e293b !important; /* Slate 800 */
     border-bottom: 1px solid #334155 !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* --- ZONES DE CONTENU (Cartes, Listes) --- */
+/* 4. NETTOYAGE DES ZONES BLANCHES/GRISES (Le correctif important) */
+/* On rend transparents tous les conteneurs intermédiaires qui font des barres grises moches */
 div[class*="CollectionTop"],
 div[class*="EditorContainer"],
-div[class*="Sidebar"],
-div[class*="Card"],
+div[class*="ControlPane"],
+div[class*="ObjectWidget"],
+div[class*="ObjectControl"], 
+div[class*="SortableList"] {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* 5. LES "CARTES" (Tes catégories) */
+/* C'est ici qu'on met le fond bleu un peu plus clair (#1e293b) */
 div[class*="ListItem"] {
-    background-color: #232936 !important; /* Fond des blocs */
-    border: 1px solid #334155 !important; /* Bordure discrète */
-    border-radius: 12px !important;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2) !important;
-    color: #e2e8f0 !important;
-    margin-bottom: 15px !important;
-}
-
-/* --- TITRES ET LABELS --- */
-h1, h2, h3, label {
-    color: #93c5fd !important; /* Bleu clair pour les titres */
-    font-weight: 600 !important;
-}
-
-/* --- BOUTONS --- */
-/* Bouton principal (Ajouter, Publier) */
-button[class*="Button"],
-a[class*="Button"] {
-    background-color: #3b82f6 !important; /* Bleu vif */
-    color: white !important;
-    border: none !important;
-    border-radius: 8px !important;
-    font-weight: 600 !important;
-    text-transform: none !important;
-    padding: 10px 20px !important;
-    cursor: pointer !important;
-    transition: background-color 0.2s;
-}
-
-button[class*="Button"]:hover,
-a[class*="Button"]:hover {
-    background-color: #2563eb !important; /* Bleu plus foncé au survol */
-}
-
-/* Bouton "Ajouter" spécifique */
-button[class*="AddButton"] {
-    background-color: #3b82f6 !important;
-    width: auto !important;
-    display: inline-block !important;
-}
-
-/* --- CHAMPS DE TEXTE (Inputs) --- */
-input, textarea, div[class*="Widget"] {
-    background-color: #1a1f2c !important; /* Fond très foncé */
+    background-color: #1e293b !important;
     border: 1px solid #334155 !important;
-    color: white !important;
     border-radius: 8px !important;
-    padding: 12px !important;
+    margin-bottom: 16px !important;
+    padding: 0 !important; /* On gère le padding nous-mêmes */
+    overflow: hidden;
+}
+
+/* La barre de titre (celle qui est grise sur ta capture) -> On la met en bleu */
+div[class*="ListItemTopBar"] {
+    background-color: #26334d !important; /* Un bleu légèrement différent pour distinguer */
+    border-bottom: 1px solid #334155 !important;
+    padding: 12px 20px !important;
+}
+
+/* Le titre "2 les catégories..." */
+button[class*="StyledButton"] {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #93c5fd !important; /* Bleu clair */
+}
+
+/* 6. LES CHAMPS DE TEXTE (INPUTS) - Comme sur ton image */
+input[type="text"], textarea, div[class*="Widget"] {
+    background-color: #0f172a !important; /* Fond très sombre (presque noir) */
+    border: 1px solid #334155 !important;
+    border-radius: 6px !important;
+    color: white !important;
+    padding: 10px 15px !important;
+    margin-top: 5px !important;
 }
 
 input:focus, textarea:focus {
-    border-color: #3b82f6 !important; /* Bordure bleue au focus */
+    border-color: #3b82f6 !important; /* Bleu vif au clic */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
     outline: none !important;
 }
 
-/* --- LIENS --- */
-a {
-    color: #60a5fa !important;
-    text-decoration: none !important;
+/* 7. LES BOUTONS (Le Bleu Vif #3b82f6) */
+/* Bouton "Ajouter" */
+button[class*="AddButton"] {
+    background-color: #3b82f6 !important;
+    color: white !important;
+    border-radius: 6px !important;
+    padding: 10px 20px !important;
+    font-weight: 600 !important;
+    border: none !important;
+    text-transform: none !important; /* Pas de majuscules forcées */
+    display: inline-block !important;
+    width: auto !important;
+    margin-top: 15px !important;
 }
 
-/* --- NETTOYAGE DES OMBRES PAR DÉFAUT --- */
-* {
+button[class*="AddButton"]:hover {
+    background-color: #2563eb !important;
+}
+
+/* Bouton Publier (en haut) */
+button[class*="PublishButton"] {
+    background-color: #3b82f6 !important;
+}
+
+/* 8. LES TITRES DES CHAMPS (Labels) */
+label {
+    color: #94a3b8 !important; /* Gris bleuté */
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 4px !important;
+    display: block !important;
+    text-transform: none !important; /* Enlève le style majuscule agressif */
+}
+
+/* 9. CORRECTIONS SPÉCIFIQUES POUR TA CAPTURE */
+
+/* Enlever le fond gris derrière "Identifiant", "Image", etc */
+div[id*="field-"] {
+    margin-bottom: 20px !important;
+}
+
+/* La barre latérale à gauche */
+div[class*="Sidebar"] {
+    background-color: #1e293b !important;
+    border-right: 1px solid #334155 !important;
+}
+a[class*="NavLink"] {
+    color: #cbd5e1 !important;
+}
+a[class*="NavLink"][class*="Active"] {
+    background-color: #3b82f6 !important;
+    color: white !important;
+}
+
+/* Cacher les ombres blanches parasites */
+div, span, button {
     box-shadow: none !important;
 }
