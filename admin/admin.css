@@ -1,1 +1,66 @@
 
+/* --- LE FOND (DÉGRADÉ FONCÉ) --- */
+body, #nc-root {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364) !important;
+    color: #fff !important;
+    font-family: 'Segoe UI', sans-serif !important;
+}
+
+/* --- LA BARRE DU HAUT --- */
+div[class*="AppHeader"] {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- LES BOUTONS (BLEU CYAN) --- */
+button, a[class*="Button"] {
+    background-color: #00e0ff !important;
+    color: #0f2027 !important;
+    border-radius: 25px !important;
+    border: none !important;
+    font-weight: bold !important;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0, 224, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+button:hover, a[class*="Button"]:hover {
+    background-color: #00bcd4 !important;
+    transform: scale(1.05);
+}
+
+/* --- LES CARTES ET ZONES DE TEXTE --- */
+/* On cible les zones blanches pour les rendre transparentes/sombres */
+div[class*="CollectionTop"], 
+div[class*="EditorContainer"],
+div[class*="Sidebar"],
+div[class*="Card"] {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important;
+    color: white !important;
+}
+
+/* --- LES CHAMPS DE TEXTE (INPUTS) --- */
+input, textarea, div[class*="Widget"] {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    border-radius: 10px !important;
+}
+
+/* --- TEXTE ET LIENS --- */
+h1, h2, h3, label {
+    color: #00e0ff !important;
+}
+
+a {
+    color: #00e0ff !important;
+}
+
+/* Cacher les bordures grises moches */
+* {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
