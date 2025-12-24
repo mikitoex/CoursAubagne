@@ -1,83 +1,84 @@
-/* --- FORCER LE MODE SOMBRE --- */
-
-/* 1. Le fond principal en dégradé sombre */
+/* --- FOND GÉNÉRAL ET TEXTE --- */
 body, #nc-root {
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364) !important;
-    color: #fff !important;
+    background-color: #1a1f2c !important; /* Bleu foncé de fond */
+    color: #e2e8f0 !important; /* Texte clair */
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
-    min-height: 100vh;
 }
 
-/* 2. La barre du haut (Header) */
+/* --- BARRE DU HAUT (Header) --- */
 div[class*="AppHeader"] {
-    background-color: rgba(0, 0, 0, 0.5) !important; /* Noir transparent */
-    border-bottom: 1px solid rgba(0, 224, 255, 0.3) !important; /* Bordure Cyan discrète */
-    backdrop-filter: blur(10px); /* Effet flou moderne */
+    background-color: #232936 !important; /* Bleu un peu plus clair */
+    border-bottom: 1px solid #334155 !important;
 }
 
-/* 3. Les conteneurs (Cartes blanches) -> Devenez sombres et transparents ! */
+/* --- ZONES DE CONTENU (Cartes, Listes) --- */
 div[class*="CollectionTop"],
 div[class*="EditorContainer"],
 div[class*="Sidebar"],
 div[class*="Card"],
 div[class*="ListItem"] {
-    background: rgba(255, 255, 255, 0.08) !important; /* Blanc très transparent */
-    border: 1px solid rgba(0, 224, 255, 0.3) !important; /* Bordure Cyan */
-    border-radius: 15px !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important; /* Ombre portée */
-    color: white !important;
+    background-color: #232936 !important; /* Fond des blocs */
+    border: 1px solid #334155 !important; /* Bordure discrète */
+    border-radius: 12px !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2) !important;
+    color: #e2e8f0 !important;
+    margin-bottom: 15px !important;
 }
 
-/* 4. Les boutons principaux (Cyan) */
+/* --- TITRES ET LABELS --- */
+h1, h2, h3, label {
+    color: #93c5fd !important; /* Bleu clair pour les titres */
+    font-weight: 600 !important;
+}
+
+/* --- BOUTONS --- */
+/* Bouton principal (Ajouter, Publier) */
 button[class*="Button"],
 a[class*="Button"] {
-    background-color: #00e0ff !important;
-    color: #0f2027 !important; /* Texte foncé sur fond clair */
+    background-color: #3b82f6 !important; /* Bleu vif */
+    color: white !important;
     border: none !important;
-    border-radius: 25px !important;
-    font-weight: bold !important;
-    text-transform: uppercase;
-    box-shadow: 0 4px 15px rgba(0, 224, 255, 0.4) !important;
-    transition: all 0.3s ease;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    padding: 10px 20px !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s;
 }
 
-/* Effet au survol des boutons */
 button[class*="Button"]:hover,
 a[class*="Button"]:hover {
-    background-color: #00bcd4 !important;
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 224, 255, 0.6) !important;
+    background-color: #2563eb !important; /* Bleu plus foncé au survol */
 }
 
-/* 5. Les champs de texte (Inputs) */
+/* Bouton "Ajouter" spécifique */
+button[class*="AddButton"] {
+    background-color: #3b82f6 !important;
+    width: auto !important;
+    display: inline-block !important;
+}
+
+/* --- CHAMPS DE TEXTE (Inputs) --- */
 input, textarea, div[class*="Widget"] {
-    background-color: rgba(0, 0, 0, 0.3) !important; /* Fond sombre */
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    background-color: #1a1f2c !important; /* Fond très foncé */
+    border: 1px solid #334155 !important;
     color: white !important;
-    border-radius: 10px !important;
+    border-radius: 8px !important;
     padding: 12px !important;
 }
 
-/* Quand on clique dans un champ */
 input:focus, textarea:focus {
-    border-color: #00e0ff !important;
-    box-shadow: 0 0 10px rgba(0, 224, 255, 0.3) !important;
+    border-color: #3b82f6 !important; /* Bordure bleue au focus */
     outline: none !important;
 }
 
-/* 6. Les titres et labels (en Cyan) */
-h1, h2, h3, label {
-    color: #00e0ff !important;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    font-weight: bold !important;
+/* --- LIENS --- */
+a {
+    color: #60a5fa !important;
+    text-decoration: none !important;
 }
 
-/* 7. Nettoyage final */
-/* Enlever les ombres blanches moches par défaut */
+/* --- NETTOYAGE DES OMBRES PAR DÉFAUT --- */
 * {
     box-shadow: none !important;
-}
-/* Remettre nos belles ombres sur les éléments importants */
-button, div[class*="Card"], div[class*="ListItem"] {
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
 }
