@@ -16,47 +16,41 @@ collections:
         file: "quiz.json"
         fields:
           - {
-              label: "LES CATÉGORIES (Tes Cours)", 
+              label: "MES COURS (Clique sur + pour ajouter)", 
               name: "categories", 
               widget: "list", 
               collapsed: true,
-              minimize_collapsed: true,
               summary: "📂 {{title}}", 
               fields: [
-                # ÉTAPE 1
-                {label: "1️⃣ TITRE DU COURS", name: "title", widget: "string"},
-                {label: "🔑 IDENTIFIANT (minuscule, pas d'espace)", name: "key", widget: "string"},
-
-                # ÉTAPE 2
-                {label: "🖼️ IMAGE (Prioritaire)", name: "image", widget: "image", required: false},
-                {label: "🙂 EMOJI (Texte)", name: "emoji", widget: "string", required: false},
-
-                # ÉTAPE 3
-                {label: "🎁 FICHIER PDF (Récompense)", name: "pdf", widget: "file", required: false},
-
-                # ÉTAPE 4 : LE PROMPT D'AIDE (NOUVEAU !)
+                # --- NOUVEAU : TON PROMPT EST ICI ---
                 {
-                  label: "📋 LE PROMPT À COPIER (Copie ça et envoie à l'IA)", 
+                  label: "🤖 PROMPT IA (Copie ce texte pour ChatGPT)", 
                   name: "ai_helper", 
                   widget: "text", 
                   required: false,
-                  # C'est ici que je mets le texte par défaut !
-                  default: "Agis comme un professeur pédagogue.\nTon objectif : Créer un quiz de révision basé UNIQUEMENT sur le fichier que je te joins.\n\nRÈGLES :\n1. Parle français naturellement. Ne dis jamais 'Selon le document'.\n2. Fais 10 questions courtes.\n3. Donne-moi UNIQUEMENT le code JSON brut (sans markdown).\n\nFORMAT OBLIGATOIRE :\n[{\"question\": \"...\", \"options\": [\"A\", \"B\"], \"answer\": \"A\", \"explanation\": \"...\"}]",
-                  hint: "⬆️ Clique dans la case, fais Ctrl+A (Tout sélectionner) puis Ctrl+C (Copier). Donne ça à ChatGPT avec ton cours."
+                  hint: "Clique dans la case noire, fais CTRL+A (Tout sélectionner) puis CTRL+C (Copier).",
+                  default: "Ton objectif : Créer un quiz de révision simple et clair pour des élèves, basé UNIQUEMENT sur le fichier que je te joins.\n\nRÈGLES DE STYLE (TRES IMPORTANT) :\n1. Parle français naturellement. N'utilise JAMAIS d'expressions comme 'Selon le document', 'Le texte mentionne'. Pose la question directement.\n2. Fais des questions courtes et faciles à lire.\n3. Les options de réponse doivent être simples. Pas de phrases compliquées.\n4. L'explication doit être courte (1 phrase) et instructive.\n\nFORMAT TECHNIQUE :\nDonne-moi UNIQUEMENT le code JSON brut (sans phrase d'intro, sans balises markdown).\nStructure obligatoire :\n[{\"question\": \"Question simple ?\", \"options\": [\"Choix A\", \"Choix B\", \"Choix C\"], \"answer\": \"Choix A\", \"explanation\": \"C'est la bonne réponse car...\"}]\n\nGénère 10 questions maintenant."
                 },
+                
+                # --- LA SUITE NORMALE ---
+                {label: "1. Titre du Cours", name: "title", widget: "string"},
+                {label: "2. Identifiant (minuscule sans espace)", name: "key", widget: "string"},
+                {label: "3. Image (Optionnel)", name: "image", widget: "image", required: false},
+                {label: "4. Emoji (Optionnel)", name: "emoji", widget: "string", required: false},
+                {label: "5. PDF à gagner (Optionnel)", name: "pdf", widget: "file", required: false},
 
-                # ÉTAPE 5 : COLLER LE RÉSULTAT
+                # --- ZONE DE COLLAGE ---
                 {
                   label: "⚡ ZONE DE COLLAGE (Colle la réponse de l'IA ici)", 
                   name: "bulk_json", 
                   widget: "text", 
                   required: false,
-                  hint: "Colle ici le code JSON que ChatGPT te répond."
+                  hint: "Colle ici le code JSON que l'IA t'a donné."
                 },
 
-                # OPTION MANUELLE
+                # --- ZONE MANUELLE ---
                 {
-                  label: "✍️ OU Mode Manuel", 
+                  label: "✍️ Modification Manuelle", 
                   name: "questions", 
                   widget: "list",
                   collapsed: true, 
