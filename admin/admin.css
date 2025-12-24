@@ -1,84 +1,30 @@
-/* ============================================================
-   LAYOUT "FORMULAIRE" - STRUCTURE SEULEMENT (COULEURS DE BASE)
-   ============================================================ */
+/* --- RETOUR À LA NORMALE (STABLE) --- */
 
-/* 1. ON MET LE BOUTON "AJOUTER" TOUT EN HAUT */
-/* Astuce : On inverse l'ordre d'affichage flexible */
-div[id*="categories-field"] > div {
-    display: flex !important;
-    flex-direction: column !important;
-}
-
-/* Le bouton Ajouter passe en premier (order: -1) */
+/* 1. Juste le bouton "Ajouter" en BLEU */
 button[class*="AddButton"] {
-    order: -1 !important;
-    width: 100% !important;
-    margin-bottom: 30px !important; /* Espace sous le bouton */
-    margin-top: 10px !important;
-    padding: 20px !important;
-    
-    /* On le style pour qu'il ressemble à un gros bloc "En-tête" */
-    background-color: #3b82f6 !important; /* Bleu standard propre */
+    background-color: #3b82f6 !important; /* Bleu royal */
     color: white !important;
-    font-size: 1.1em !important;
+    border: none !important;
     font-weight: bold !important;
     text-transform: uppercase;
-    border-radius: 8px !important;
-    border: none !important;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
-    cursor: pointer !important;
-    
-    /* On ajoute le petit "+" en texte si besoin via content (compliqué en CSS pur) 
-       mais le bouton a déjà son propre texte */
+    border-radius: 5px !important;
 }
 button[class*="AddButton"]:hover {
     background-color: #2563eb !important;
-    transform: translateY(-2px);
 }
 
-/* 2. LES CATÉGORIES (LISTE EN DESSOUS) */
-/* On les transforme en "Barres" propres */
+/* 2. On s'assure que le reste est propre */
 div[class*="ListItem"] {
-    border: 1px solid #e2e8f0 !important; /* Bordure grise légère */
-    background-color: #ffffff !important; /* Fond blanc propre */
-    border-radius: 8px !important;
+    border: 1px solid #ddd !important;
     margin-bottom: 15px !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
-    transition: all 0.2s ease;
+    background: white !important;
 }
 
-/* Effet au survol */
-div[class*="ListItem"]:hover {
-    border-color: #3b82f6 !important; /* Bordure bleue au survol */
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15) !important;
-}
-
-/* La barre de titre cliquable */
-div[class*="ListItemTopBar"] {
-    padding: 15px 20px !important;
-    background-color: #f8fafc !important; /* Gris très pâle */
-    border-bottom: 1px solid #e2e8f0 !important;
-    cursor: pointer !important;
-}
-
-/* Le titre (Nom de la catégorie) */
-button[class*="StyledButton"] {
-    font-size: 1rem !important;
-    font-weight: 600 !important;
-    color: #1e293b !important; /* Texte gris foncé lisible */
-}
-
-/* 3. ALIGNEMENT GÉNÉRAL À GAUCHE */
-div[class*="Container"], 
-div[class*="CollectionMain"] {
-    max-width: 1000px !important; /* Largeur confortable */
-    margin: 0 auto !important;    /* Centré mais large */
-    padding: 20px !important;
-}
-
-/* 4. MODE FOCUS (OPTIONNEL MAIS UTILE) */
-/* Cache les autres catégories quand tu en ouvres une */
-div[role="list"]:has(div[class*="ListItem"]:focus-within) div[class*="ListItem"]:not(:focus-within) {
-    opacity: 0.3 !important;
-    filter: blur(1px);
+/* 3. Style pour la case du Prompt (pour qu'on la repère bien) */
+div[id*="ai_helper-field"] textarea {
+    background-color: #1e293b !important; /* Fond sombre */
+    color: #a5f3fc !important; /* Texte cyan type code */
+    font-family: monospace;
+    font-size: 0.85rem;
+    height: 150px !important;
 }
