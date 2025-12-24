@@ -1,92 +1,84 @@
 /* ============================================================
-   DESIGN "MENU ACCORDÉON" - PROPRE & MODERNE
+   LAYOUT "FORMULAIRE" - STRUCTURE SEULEMENT (COULEURS DE BASE)
    ============================================================ */
 
-/* 1. COULEURS DE BASE (Bleu Nuit Apaisant) */
-body, #nc-root {
-    background-color: #0f172a !important; /* Fond sombre */
-    color: #e2e8f0 !important;
-}
-
-/* 2. ASTUCE MAGIQUE : LE BOUTON "AJOUTER" EN HAUT ! */
-/* On utilise Flexbox pour inverser l'ordre d'affichage */
+/* 1. ON MET LE BOUTON "AJOUTER" TOUT EN HAUT */
+/* Astuce : On inverse l'ordre d'affichage flexible */
 div[id*="categories-field"] > div {
     display: flex !important;
     flex-direction: column !important;
 }
 
-/* On cible le bouton Ajouter (qui est normalement en bas) */
+/* Le bouton Ajouter passe en premier (order: -1) */
 button[class*="AddButton"] {
-    order: -1 !important; /* On le force à passer en PREMIER */
-    margin-bottom: 20px !important;
-    margin-top: 0 !important;
+    order: -1 !important;
     width: 100% !important;
-    background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+    margin-bottom: 30px !important; /* Espace sous le bouton */
+    margin-top: 10px !important;
+    padding: 20px !important;
+    
+    /* On le style pour qu'il ressemble à un gros bloc "En-tête" */
+    background-color: #3b82f6 !important; /* Bleu standard propre */
     color: white !important;
-    padding: 15px !important;
-    border-radius: 8px !important;
+    font-size: 1.1em !important;
     font-weight: bold !important;
     text-transform: uppercase;
+    border-radius: 8px !important;
     border: none !important;
-    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3) !important;
-}
-button[class*="AddButton"]:hover { transform: scale(1.01); }
-
-/* 3. LES BARRES DE MENU (Catégories fermées) */
-div[class*="ListItem"] {
-    background-color: #1e293b !important;
-    border: 1px solid #334155 !important;
-    border-radius: 6px !important;
-    margin-bottom: 8px !important; /* Espacement fin comme un menu */
-    transition: all 0.3s ease;
-    overflow: hidden;
-}
-
-/* La barre cliquable */
-div[class*="ListItemTopBar"] {
-    background-color: #1e293b !important;
-    padding: 10px 15px !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
     cursor: pointer !important;
-    border-bottom: 1px solid transparent !important;
+    
+    /* On ajoute le petit "+" en texte si besoin via content (compliqué en CSS pur) 
+       mais le bouton a déjà son propre texte */
+}
+button[class*="AddButton"]:hover {
+    background-color: #2563eb !important;
+    transform: translateY(-2px);
 }
 
-/* Le texte du titre */
+/* 2. LES CATÉGORIES (LISTE EN DESSOUS) */
+/* On les transforme en "Barres" propres */
+div[class*="ListItem"] {
+    border: 1px solid #e2e8f0 !important; /* Bordure grise légère */
+    background-color: #ffffff !important; /* Fond blanc propre */
+    border-radius: 8px !important;
+    margin-bottom: 15px !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+    transition: all 0.2s ease;
+}
+
+/* Effet au survol */
+div[class*="ListItem"]:hover {
+    border-color: #3b82f6 !important; /* Bordure bleue au survol */
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15) !important;
+}
+
+/* La barre de titre cliquable */
+div[class*="ListItemTopBar"] {
+    padding: 15px 20px !important;
+    background-color: #f8fafc !important; /* Gris très pâle */
+    border-bottom: 1px solid #e2e8f0 !important;
+    cursor: pointer !important;
+}
+
+/* Le titre (Nom de la catégorie) */
 button[class*="StyledButton"] {
-    color: #93c5fd !important; /* Bleu clair */
-    font-weight: 600 !important;
     font-size: 1rem !important;
-    text-align: left !important;
+    font-weight: 600 !important;
+    color: #1e293b !important; /* Texte gris foncé lisible */
 }
 
-/* 4. QUAND C'EST OUVERT (FOCUS) */
-/* Quand on ouvre un élément, il devient plus grand et plus clair */
-div[class*="ListItem"][class*="Open"] {
-    background-color: #1e293b !important;
-    border-color: #3b82f6 !important; /* Bordure bleue */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
-    margin: 20px 0 !important; /* On l'écarte des autres */
+/* 3. ALIGNEMENT GÉNÉRAL À GAUCHE */
+div[class*="Container"], 
+div[class*="CollectionMain"] {
+    max-width: 1000px !important; /* Largeur confortable */
+    margin: 0 auto !important;    /* Centré mais large */
+    padding: 20px !important;
 }
 
-div[class*="ListItem"][class*="Open"] div[class*="ListItemTopBar"] {
-    background-color: #26334d !important;
-    border-bottom: 1px solid #334155 !important;
-}
-
-/* 5. NETTOYAGE DES INPUTS */
-input, textarea, div[class*="Widget"] {
-    background-color: #0f172a !important;
-    border: 1px solid #334155 !important;
-    color: white !important;
-    border-radius: 6px !important;
-    padding: 10px !important;
-}
-input:focus, textarea:focus {
-    border-color: #3b82f6 !important;
-    outline: none !important;
-}
-
-/* Cacher les bordures inutiles */
-* { border-color: transparent !important; }
-div[class*="ListItem"], input, textarea, div[class*="AppHeader"] { 
-    border-color: #334155 !important; 
+/* 4. MODE FOCUS (OPTIONNEL MAIS UTILE) */
+/* Cache les autres catégories quand tu en ouvres une */
+div[role="list"]:has(div[class*="ListItem"]:focus-within) div[class*="ListItem"]:not(:focus-within) {
+    opacity: 0.3 !important;
+    filter: blur(1px);
 }
