@@ -40,20 +40,20 @@ collections:
                   widget: "string"
                 },
                 
-                # 3. CHOIX VISUEL : EMOJI OU IMAGE
+                # 3. VISUEL (EMOJI OU IMAGE)
                 {
                   label: "Option 1 : Emoji", 
                   name: "emoji", 
                   widget: "string", 
                   required: false,
-                  hint: "Écris l'emoji ici si tu veux du texte (ex: 🕌, 💩, 💧)."
+                  hint: "Écris l'emoji ici (ex: 🕌, 💩) si tu ne mets pas d'image."
                 },
                 {
                   label: "Option 2 : Image", 
                   name: "image", 
                   widget: "image", 
                   required: false,
-                  hint: "Uploade une image si tu préfères (Remplacera l'emoji)."
+                  hint: "Uploade une image ici (Elle sera prioritaire sur l'emoji)."
                 },
                 
                 # 4. LE PDF
@@ -62,12 +62,21 @@ collections:
                   name: "pdf", 
                   widget: "file", 
                   required: false,
-                  hint: "Le fichier à gagner si l'élève a 10/10."
+                  hint: "Le fichier à gagner si l'élève a 100% de bonnes réponses."
+                },
+
+                # 5. MODE TURBO (LA NOUVEAUTÉ)
+                {
+                  label: "⚡ MODE TURBO (Copier-Coller IA)", 
+                  name: "bulk_json", 
+                  widget: "text", 
+                  required: false,
+                  hint: "Colle ici le bloc JSON que ChatGPT te donne. Si tu remplis ça, ne touche pas à la liste 'Questions' ci-dessous."
                 },
                 
-                # 5. LES QUESTIONS
+                # 6. LES QUESTIONS (MODE MANUEL)
                 {
-                  label: "❓ Les Questions", 
+                  label: "❓ Les Questions (Mode Manuel)", 
                   name: "questions", 
                   widget: "list",
                   collapsed: true, 
@@ -75,7 +84,7 @@ collections:
                   fields: [
                     {label: "La Question", name: "question", widget: "string"},
                     {label: "Les Choix (2 à 4)", name: "options", widget: "list"},
-                    {label: "La BONNE Réponse", name: "answer", widget: "string", hint: "Copie exactement la bonne réponse des choix."},
+                    {label: "La BONNE Réponse", name: "answer", widget: "string", hint: "Copie exactement la bonne réponse."},
                     {label: "Explication", name: "explanation", widget: "text", required: false}
                   ]
                 }
