@@ -16,42 +16,47 @@ collections:
         file: "quiz.json"
         fields:
           - {
-              label: "LES CATÉGORIES (Cliques pour ouvrir)", 
+              label: "LES CATÉGORIES (Tes Cours)", 
               name: "categories", 
               widget: "list", 
-              collapsed: true,   # <--- C'est ça qui crée l'effet "Bloc fermé"
+              collapsed: true,
               minimize_collapsed: true,
-              summary: "📂 {{title}}", # <--- Le titre affiché sur le bloc
+              summary: "📂 {{title}}", 
               fields: [
-                # ==========================================
-                # ÉTAPE 1 : INFOS
-                # ==========================================
+                # ÉTAPE 1
                 {label: "1️⃣ TITRE DU COURS", name: "title", widget: "string"},
-                {label: "🔑 IDENTIFIANT (minuscule sans espace)", name: "key", widget: "string"},
+                {label: "🔑 IDENTIFIANT (minuscule, pas d'espace)", name: "key", widget: "string"},
 
-                # ==========================================
-                # ÉTAPE 2 : VISUEL
-                # ==========================================
+                # ÉTAPE 2
                 {label: "🖼️ IMAGE (Prioritaire)", name: "image", widget: "image", required: false},
                 {label: "🙂 EMOJI (Texte)", name: "emoji", widget: "string", required: false},
 
-                # ==========================================
-                # ÉTAPE 3 : CADEAU
-                # ==========================================
-                {label: "🎁 FICHIER PDF", name: "pdf", widget: "file", required: false},
+                # ÉTAPE 3
+                {label: "🎁 FICHIER PDF (Récompense)", name: "pdf", widget: "file", required: false},
 
-                # ==========================================
-                # ÉTAPE 4 : QUESTIONS
-                # ==========================================
+                # ÉTAPE 4 : LE PROMPT D'AIDE (NOUVEAU !)
                 {
-                  label: "⚡ OPTION A : Mode Copier-Coller IA", 
+                  label: "📋 LE PROMPT À COPIER (Copie ça et envoie à l'IA)", 
+                  name: "ai_helper", 
+                  widget: "text", 
+                  required: false,
+                  # C'est ici que je mets le texte par défaut !
+                  default: "Agis comme un professeur pédagogue.\nTon objectif : Créer un quiz de révision basé UNIQUEMENT sur le fichier que je te joins.\n\nRÈGLES :\n1. Parle français naturellement. Ne dis jamais 'Selon le document'.\n2. Fais 10 questions courtes.\n3. Donne-moi UNIQUEMENT le code JSON brut (sans markdown).\n\nFORMAT OBLIGATOIRE :\n[{\"question\": \"...\", \"options\": [\"A\", \"B\"], \"answer\": \"A\", \"explanation\": \"...\"}]",
+                  hint: "⬆️ Clique dans la case, fais Ctrl+A (Tout sélectionner) puis Ctrl+C (Copier). Donne ça à ChatGPT avec ton cours."
+                },
+
+                # ÉTAPE 5 : COLLER LE RÉSULTAT
+                {
+                  label: "⚡ ZONE DE COLLAGE (Colle la réponse de l'IA ici)", 
                   name: "bulk_json", 
                   widget: "text", 
                   required: false,
-                  hint: "Colle ici le bloc JSON de ChatGPT."
+                  hint: "Colle ici le code JSON que ChatGPT te répond."
                 },
+
+                # OPTION MANUELLE
                 {
-                  label: "✍️ OPTION B : Mode Manuel", 
+                  label: "✍️ OU Mode Manuel", 
                   name: "questions", 
                   widget: "list",
                   collapsed: true, 
