@@ -1,59 +1,92 @@
-/* --- 1. ALIGNEMENT À GAUCHE (Ton réglage précédent) --- */
-div[class*="Container"], 
-div[class*="CollectionMain"] {
-    max-width: 100% !important;
-    margin-left: 0 !important;
-    padding-left: 40px !important;
+/* ============================================================
+   DESIGN "MENU ACCORDÉON" - PROPRE & MODERNE
+   ============================================================ */
+
+/* 1. COULEURS DE BASE (Bleu Nuit Apaisant) */
+body, #nc-root {
+    background-color: #0f172a !important; /* Fond sombre */
+    color: #e2e8f0 !important;
 }
 
-div[class*="ListItem"] {
-    width: 100% !important;
-    max-width: 900px !important;
-    margin-bottom: 20px !important;
-    border-radius: 8px !important;
-    /* On ajoute une transition pour que l'effet soit fluide */
-    transition: all 0.4s ease;
+/* 2. ASTUCE MAGIQUE : LE BOUTON "AJOUTER" EN HAUT ! */
+/* On utilise Flexbox pour inverser l'ordre d'affichage */
+div[id*="categories-field"] > div {
+    display: flex !important;
+    flex-direction: column !important;
 }
 
-/* --- 2. L'ANIMATION D'OUVERTURE --- */
-div[class*="ListItem"] > div:not([class*="TopBar"]) {
-    animation: slideRight 0.3s ease-out;
-    transform-origin: top left;
-}
-
-@keyframes slideRight {
-    0% { opacity: 0; transform: translateX(-20px); }
-    100% { opacity: 1; transform: translateX(0); }
-}
-
-/* --- 3. LE BOUTON AJOUTER --- */
+/* On cible le bouton Ajouter (qui est normalement en bas) */
 button[class*="AddButton"] {
-    width: auto !important;
-    display: inline-block !important;
-    padding: 10px 25px !important;
+    order: -1 !important; /* On le force à passer en PREMIER */
+    margin-bottom: 20px !important;
+    margin-top: 0 !important;
+    width: 100% !important;
+    background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+    color: white !important;
+    padding: 15px !important;
+    border-radius: 8px !important;
     font-weight: bold !important;
-    margin-top: 20px !important;
+    text-transform: uppercase;
+    border: none !important;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3) !important;
+}
+button[class*="AddButton"]:hover { transform: scale(1.01); }
+
+/* 3. LES BARRES DE MENU (Catégories fermées) */
+div[class*="ListItem"] {
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+    border-radius: 6px !important;
+    margin-bottom: 8px !important; /* Espacement fin comme un menu */
+    transition: all 0.3s ease;
+    overflow: hidden;
 }
 
-/* =========================================================
-   4. LE "MODE FOCUS" (Anti-Distraction)
-   C'est ça qui va t'aider à ne pas être perdu !
-   ========================================================= */
-
-/* Quand tu cliques DANS une catégorie (elle a le focus)... */
-/* ... toutes les AUTRES catégories deviennent presque invisibles */
-div[role="list"]:has(div[class*="ListItem"]:focus-within) div[class*="ListItem"]:not(:focus-within) {
-    opacity: 0.1 !important;       /* Devient presque transparent (10% visible) */
-    filter: blur(2px) !important;  /* Devient flou */
-    pointer-events: none;          /* On ne peut pas cliquer dessus par erreur */
-    transform: scale(0.98);        /* Rétrécit un peu */
+/* La barre cliquable */
+div[class*="ListItemTopBar"] {
+    background-color: #1e293b !important;
+    padding: 10px 15px !important;
+    cursor: pointer !important;
+    border-bottom: 1px solid transparent !important;
 }
 
-/* Si tu veux en réactiver une autre, passe juste la souris dessus */
-div[role="list"]:has(div[class*="ListItem"]:focus-within) div[class*="ListItem"]:not(:focus-within):hover {
-    opacity: 1 !important;         /* Redevient visible */
-    filter: blur(0) !important;    /* Plus de flou */
-    transform: scale(1);
-    pointer-events: auto;
-    cursor: pointer;
+/* Le texte du titre */
+button[class*="StyledButton"] {
+    color: #93c5fd !important; /* Bleu clair */
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    text-align: left !important;
+}
+
+/* 4. QUAND C'EST OUVERT (FOCUS) */
+/* Quand on ouvre un élément, il devient plus grand et plus clair */
+div[class*="ListItem"][class*="Open"] {
+    background-color: #1e293b !important;
+    border-color: #3b82f6 !important; /* Bordure bleue */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+    margin: 20px 0 !important; /* On l'écarte des autres */
+}
+
+div[class*="ListItem"][class*="Open"] div[class*="ListItemTopBar"] {
+    background-color: #26334d !important;
+    border-bottom: 1px solid #334155 !important;
+}
+
+/* 5. NETTOYAGE DES INPUTS */
+input, textarea, div[class*="Widget"] {
+    background-color: #0f172a !important;
+    border: 1px solid #334155 !important;
+    color: white !important;
+    border-radius: 6px !important;
+    padding: 10px !important;
+}
+input:focus, textarea:focus {
+    border-color: #3b82f6 !important;
+    outline: none !important;
+}
+
+/* Cacher les bordures inutiles */
+* { border-color: transparent !important; }
+div[class*="ListItem"], input, textarea, div[class*="AppHeader"] { 
+    border-color: #334155 !important; 
 }
