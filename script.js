@@ -4,7 +4,7 @@ let currentQuestionIndex = 0;
 let score = 0;
 let currentCategoryKey = "";
 
-// 1. CHARGEMENT (Avec anti-cache)
+// 1. CHARGEMENT
 document.addEventListener('DOMContentLoaded', () => {
     fetch('quiz.json?t=' + Date.now())
         .then(response => {
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-// 2. GÉNÉRER LE MENU (Logique Image vs Emoji)
+// 2. GÉNÉRER LE MENU
 function generateMenu() {
     const grid = document.getElementById('menu-grid');
     if (!grid) return;
@@ -30,31 +30,33 @@ function generateMenu() {
 
     if (appData.categories) {
         appData.categories.forEach(category => {
-            const count = category.questions ? category.questions.length : 0;
+            // Calcul du nombre de questions (Manuel ou Turbo)
+            let qCount = 0;
+            if (category.bulk_json && category.bulk_json.trim() !== "") {
+                try {
+                    qCount = JSON.parse(category.bulk_json).length;
+                } catch(e) { qCount = 0; }
+            } else if (category.questions) {
+                qCount = category.questions.length;
+            }
+
             const card = document.createElement('div');
-            card.className = count === 0 ? 'card locked' : 'card';
+            card.className = qCount === 0 ? 'card locked' : 'card';
             
-            if (count > 0) {
+            if (qCount > 0) {
                 card.onclick = () => startQuiz(category);
             } else {
                 card.onclick = () => alert("En construction !");
             }
 
-            // --- C'EST ICI QUE TOUT SE JOUE ---
+            // Gestion Image / Emoji
             let iconHtml;
-
-            // CAS 1 : Une image est définie (Priorité absolue)
             if (category.image) {
                 let imgPath = category.image.startsWith('/') ? category.image.substring(1) : category.image;
                 iconHtml = `<img src="${imgPath}" class="category-img" alt="${category.title}">`;
-            
-            // CAS 2 : Un emoji est défini
             } else if (category.emoji) {
                 iconHtml = `<div class="icon">${category.emoji}</div>`;
-            
-            // CAS 3 : Rien défini (ou vieux format), on met par défaut
             } else {
-                // Compatibilité avec ton ancien système 'icon' s'il existe encore
                 let oldIcon = category.icon || '📝'; 
                 if (oldIcon.includes('.') || oldIcon.includes('/')) {
                      let oldPath = oldIcon.startsWith('/') ? oldIcon.substring(1) : oldIcon;
@@ -67,20 +69,41 @@ function generateMenu() {
             card.innerHTML = `
                 ${iconHtml}
                 <h3>${category.title}</h3>
-                <p>${count} Questions</p>
+                <p>${qCount} Questions</p>
             `;
             grid.appendChild(card);
         });
     }
 }
 
-// 3. LANCER LE QUIZ
+// 3. LANCER LE QUIZ (Logique Turbo incluse)
 function startQuiz(categoryObj) {
-    currentQuestions = categoryObj.questions;
     currentCategoryKey = categoryObj.key;
     currentQuestionIndex = 0;
     score = 0;
     document.getElementById('category-badge').innerText = categoryObj.title;
+
+    // --- LOGIQUE MODE TURBO ---
+    // Si la case "bulk_json" est remplie, on l'utilise en priorité
+    if (categoryObj.bulk_json && categoryObj.bulk_json.trim() !== "") {
+        try {
+            currentQuestions = JSON.parse(categoryObj.bulk_json);
+            console.log("Mode Turbo activé : Questions chargées depuis le JSON");
+        } catch (e) {
+            alert("Erreur dans le code JSON collé ! Vérifie le format.");
+            console.error(e);
+            currentQuestions = categoryObj.questions || [];
+        }
+    } else {
+        // Sinon, on prend les questions manuelles
+        currentQuestions = categoryObj.questions || [];
+    }
+
+    if (currentQuestions.length === 0) {
+        alert("Aucune question trouvée pour ce quiz !");
+        return;
+    }
+
     showScreen('quiz-screen');
     loadQuestion();
 }
@@ -154,7 +177,7 @@ function nextQuestion() {
     }
 }
 
-// 4. RÉSULTATS (Score Parfait = PDF)
+// 4. RÉSULTATS (PDF si 100%)
 function showResults() {
     document.getElementById('score').innerText = score;
     document.getElementById('total-questions').innerText = currentQuestions.length;
@@ -162,7 +185,6 @@ function showResults() {
     const rewardSection = document.getElementById('reward-section');
     const currentCategory = appData.categories.find(c => c.key === currentCategoryKey);
 
-    // CONDITION : Il faut le PDF ET que le score soit parfait (score === total)
     if (currentCategory && currentCategory.pdf && score === currentQuestions.length) {
         let pdfPath = currentCategory.pdf.startsWith('/') ? currentCategory.pdf.substring(1) : currentCategory.pdf;
         
@@ -172,7 +194,6 @@ function showResults() {
         `;
         rewardSection.classList.remove('hidden');
     } else if (currentCategory && currentCategory.pdf) {
-        // Message d'encouragement
         rewardSection.innerHTML = `
             <p style="color: #666; font-size: 0.9rem;">Obtiens <strong>100% de bonnes réponses</strong> pour débloquer le PDF du cours ! 🔒</p>
         `;
