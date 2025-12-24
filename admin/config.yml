@@ -2,63 +2,98 @@ backend:
   name: git-gateway
   branch: main
 
+# Dossier de stockage
 media_folder: "/uploads"
 public_folder: "/uploads"
+
+# Langue et affichage
 display_url: "https://aubagnecours.netlify.app"
 locale: "fr" 
 
 collections:
   - name: "quiz"
-    label: "📚 Mes Cours"
+    label: "📚 GESTION DES COURS"
     files:
       - name: "data"
-        label: "Gérer le Contenu"
+        label: "Modifier le contenu"
         file: "quiz.json"
         fields:
           - {
-              label: "Liste des Cours", 
+              label: "LISTE DES COURS", 
               name: "categories", 
               widget: "list", 
               collapsed: false,
               summary: "📂 {{title}}",
               fields: [
-                # --- ÉTAPE 1 : LE LOOK ---
-                {label: "--- 1. APPARENCE DU COURS ---", name: "sep1", widget: "hidden", required: false},
-                
-                {label: "Titre du Cours", name: "title", widget: "string"},
-                {label: "Identifiant (un mot simple, ex: priere)", name: "key", widget: "string"},
-                
-                {label: "Image (Prioritaire)", name: "image", widget: "image", required: false, hint: "L'image s'affiche en premier."},
-                {label: "Emoji (Si pas d'image)", name: "emoji", widget: "string", required: false, hint: "S'affiche seulement si la case Image est vide."},
-
-                # --- ÉTAPE 2 : LE CADEAU ---
-                {label: "--- 2. LA RÉCOMPENSE ---", name: "sep2", widget: "hidden", required: false},
-                
-                {label: "Fichier PDF à gagner", name: "pdf", widget: "file", required: false},
-
-                # --- ÉTAPE 3 : LES QUESTIONS ---
-                {label: "--- 3. AJOUTER LES QUESTIONS ---", name: "sep3", widget: "hidden", required: false},
-                
-                # OPTION A : MODE RAPIDE
+                # ==========================================
+                # ÉTAPE 1 : INFORMATIONS DE BASE
+                # ==========================================
                 {
-                  label: "🚀 OPTION A : Coller le code de l'IA ici", 
+                  label: "1️⃣ TITRE DU COURS (Ex: La Prière)", 
+                  name: "title", 
+                  widget: "string"
+                },
+                {
+                  label: "🔑 IDENTIFIANT UNIQUE (Ex: priere)", 
+                  name: "key", 
+                  widget: "string",
+                  hint: "⚠️ Un seul mot, tout en minuscule, sans accent, sans espace."
+                },
+
+                # ==========================================
+                # ÉTAPE 2 : APPARENCE (IMAGE OU EMOJI)
+                # ==========================================
+                {
+                  label: "🖼️ IMAGE (Prioritaire)", 
+                  name: "image", 
+                  widget: "image", 
+                  required: false,
+                  hint: "Clique pour choisir une image. Si tu mets une image, l'emoji sera ignoré."
+                },
+                {
+                  label: "🙂 EMOJI (Si pas d'image)", 
+                  name: "emoji", 
+                  widget: "string", 
+                  required: false,
+                  hint: "Colle un emoji ici (ex: 🕌) si tu ne veux pas mettre d'image."
+                },
+
+                # ==========================================
+                # ÉTAPE 3 : LA RÉCOMPENSE
+                # ==========================================
+                {
+                  label: "🎁 FICHIER PDF À GAGNER", 
+                  name: "pdf", 
+                  widget: "file", 
+                  required: false,
+                  hint: "Le fichier que l'élève télécharge s'il a 100% de bonnes réponses."
+                },
+
+                # ==========================================
+                # ÉTAPE 4 : LES QUESTIONS (CHOISIS A OU B)
+                # ==========================================
+                
+                # OPTION A : RAPIDE
+                {
+                  label: "⚡ OPTION A : Mode IA (Copier-Coller)", 
                   name: "bulk_json", 
                   widget: "text", 
                   required: false,
-                  hint: "Si tu utilises cette case, ne touche pas à l'Option B en dessous. Pour modifier une question plus tard, tu devras la modifier ici dans le texte."
+                  hint: "🟥 Si tu utilises cette case, laisse l'Option B vide. Colle ici le code que ChatGPT te donne."
                 },
-                
-                # OPTION B : MODE MANUEL
+
+                # OPTION B : MANUELLE
                 {
-                  label: "✍️ OPTION B : Créer à la main (Boutons)", 
+                  label: "✍️ OPTION B : Mode Manuel (Boutons)", 
                   name: "questions", 
                   widget: "list",
-                  collapsed: true, 
-                  summary: "{{question}}",
+                  collapsed: true,  # C'est ici que je cache la liste pour que ça soit propre !
+                  hint: "Clique sur la flèche pour ouvrir. Utilise ça seulement si la case 'Mode IA' est vide.",
+                  summary: "❓ {{question}}",
                   fields: [
-                    {label: "Question", name: "question", widget: "string"},
-                    {label: "Réponses Possibles", name: "options", widget: "list"},
-                    {label: "Bonne Réponse (Copie exacte)", name: "answer", widget: "string"},
+                    {label: "La Question", name: "question", widget: "string"},
+                    {label: "Réponses Possibles (Entrée pour valider)", name: "options", widget: "list"},
+                    {label: "La BONNE Réponse (Copie exacte)", name: "answer", widget: "string"},
                     {label: "Explication", name: "explanation", widget: "text", required: false}
                   ]
                 }
