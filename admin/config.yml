@@ -2,11 +2,8 @@ backend:
   name: git-gateway
   branch: main
 
-# Dossier de stockage
 media_folder: "/uploads"
 public_folder: "/uploads"
-
-# Langue et affichage
 display_url: "https://aubagnecours.netlify.app"
 locale: "fr" 
 
@@ -19,81 +16,50 @@ collections:
         file: "quiz.json"
         fields:
           - {
-              label: "LISTE DES COURS", 
+              label: "LES CATÉGORIES (Cliques pour ouvrir)", 
               name: "categories", 
               widget: "list", 
-              collapsed: false,
-              summary: "📂 {{title}}",
+              collapsed: true,   # <--- C'est ça qui crée l'effet "Bloc fermé"
+              minimize_collapsed: true,
+              summary: "📂 {{title}}", # <--- Le titre affiché sur le bloc
               fields: [
                 # ==========================================
-                # ÉTAPE 1 : INFORMATIONS DE BASE
+                # ÉTAPE 1 : INFOS
                 # ==========================================
-                {
-                  label: "1️⃣ TITRE DU COURS (Ex: La Prière)", 
-                  name: "title", 
-                  widget: "string"
-                },
-                {
-                  label: "🔑 IDENTIFIANT UNIQUE (Ex: priere)", 
-                  name: "key", 
-                  widget: "string",
-                  hint: "⚠️ Un seul mot, tout en minuscule, sans accent, sans espace."
-                },
+                {label: "1️⃣ TITRE DU COURS", name: "title", widget: "string"},
+                {label: "🔑 IDENTIFIANT (minuscule sans espace)", name: "key", widget: "string"},
 
                 # ==========================================
-                # ÉTAPE 2 : APPARENCE (IMAGE OU EMOJI)
+                # ÉTAPE 2 : VISUEL
                 # ==========================================
-                {
-                  label: "🖼️ IMAGE (Prioritaire)", 
-                  name: "image", 
-                  widget: "image", 
-                  required: false,
-                  hint: "Clique pour choisir une image. Si tu mets une image, l'emoji sera ignoré."
-                },
-                {
-                  label: "🙂 EMOJI (Si pas d'image)", 
-                  name: "emoji", 
-                  widget: "string", 
-                  required: false,
-                  hint: "Colle un emoji ici (ex: 🕌) si tu ne veux pas mettre d'image."
-                },
+                {label: "🖼️ IMAGE (Prioritaire)", name: "image", widget: "image", required: false},
+                {label: "🙂 EMOJI (Texte)", name: "emoji", widget: "string", required: false},
 
                 # ==========================================
-                # ÉTAPE 3 : LA RÉCOMPENSE
+                # ÉTAPE 3 : CADEAU
                 # ==========================================
-                {
-                  label: "🎁 FICHIER PDF À GAGNER", 
-                  name: "pdf", 
-                  widget: "file", 
-                  required: false,
-                  hint: "Le fichier que l'élève télécharge s'il a 100% de bonnes réponses."
-                },
+                {label: "🎁 FICHIER PDF", name: "pdf", widget: "file", required: false},
 
                 # ==========================================
-                # ÉTAPE 4 : LES QUESTIONS (CHOISIS A OU B)
+                # ÉTAPE 4 : QUESTIONS
                 # ==========================================
-                
-                # OPTION A : RAPIDE
                 {
-                  label: "⚡ OPTION A : Mode IA (Copier-Coller)", 
+                  label: "⚡ OPTION A : Mode Copier-Coller IA", 
                   name: "bulk_json", 
                   widget: "text", 
                   required: false,
-                  hint: "🟥 Si tu utilises cette case, laisse l'Option B vide. Colle ici le code que ChatGPT te donne."
+                  hint: "Colle ici le bloc JSON de ChatGPT."
                 },
-
-                # OPTION B : MANUELLE
                 {
-                  label: "✍️ OPTION B : Mode Manuel (Boutons)", 
+                  label: "✍️ OPTION B : Mode Manuel", 
                   name: "questions", 
                   widget: "list",
-                  collapsed: true,  # C'est ici que je cache la liste pour que ça soit propre !
-                  hint: "Clique sur la flèche pour ouvrir. Utilise ça seulement si la case 'Mode IA' est vide.",
-                  summary: "❓ {{question}}",
+                  collapsed: true, 
+                  summary: "{{question}}",
                   fields: [
-                    {label: "La Question", name: "question", widget: "string"},
-                    {label: "Réponses Possibles (Entrée pour valider)", name: "options", widget: "list"},
-                    {label: "La BONNE Réponse (Copie exacte)", name: "answer", widget: "string"},
+                    {label: "Question", name: "question", widget: "string"},
+                    {label: "Réponses", name: "options", widget: "list"},
+                    {label: "Bonne Réponse", name: "answer", widget: "string"},
                     {label: "Explication", name: "explanation", widget: "text", required: false}
                   ]
                 }
