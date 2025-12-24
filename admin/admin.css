@@ -1,45 +1,33 @@
-/* ============================================================
-   THEME "SIDEBAR FLOW" - ALIGNEMENT GAUCHE
-   ============================================================ */
+/* --- ALIGNEMENT À GAUCHE (LAYOUT) --- */
 
-/* 1. RESET & FOND */
-* {
-    color: #e2e8f0 !important;
-    border-color: #334155 !important;
-}
-
-body, #nc-root {
-    background-color: #0f172a !important; /* Bleu nuit */
-    min-height: 100vh;
-}
-
-/* 2. FORCER L'ALIGNEMENT À GAUCHE (Au lieu du centre) */
-/* Cible le conteneur principal qui centre tout par défaut */
+/* 1. On dit au site de prendre toute la largeur et de se coller à gauche */
 div[class*="Container"], 
 div[class*="CollectionMain"] {
-    max-width: 100% !important; /* Prend toute la largeur */
-    margin-left: 0 !important;
+    max-width: 100% !important; /* Prend tout l'écran */
+    margin-left: 0 !important;  /* Collé à gauche */
     margin-right: 0 !important;
-    padding-left: 20px !important; /* Petite marge à gauche */
-    padding-right: 20px !important;
+    padding-left: 40px !important; /* Une petite marge pour respirer */
 }
 
-/* 3. LES BLOCS DE CATÉGORIES */
+/* 2. On limite la largeur des blocs pour que ce soit lisible sur grand écran */
 div[class*="ListItem"] {
-    background-color: #1e293b !important;
-    border: 1px solid #334155 !important;
-    border-radius: 8px !important;
-    margin-bottom: 16px !important;
-    /* Largeur fixe ou fluide selon tes goûts : */
-    width: 100% !important; 
-    max-width: 800px !important; /* On limite pour pas que ce soit trop large sur grand écran */
+    width: 100% !important;
+    max-width: 900px !important; /* Pas plus large que ça */
+    margin-bottom: 20px !important;
+    border-radius: 8px !important; /* Coins arrondis */
+    transition: transform 0.2s ease;
 }
 
-/* 4. ANIMATION : OUVERTURE DE GAUCHE À DROITE */
-/* Cible le contenu qui apparaît quand on ouvre le bloc */
+/* Petit effet quand on passe la souris */
+div[class*="ListItem"]:hover {
+    transform: translateX(5px); /* Se déplace légèrement vers la droite */
+}
+
+/* 3. L'ANIMATION : OUVERTURE VERS LA DROITE */
+/* Quand tu cliques pour ouvrir, le contenu glisse de la gauche */
 div[class*="ListItem"] > div:not([class*="TopBar"]) {
-    animation: slideRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    transform-origin: left center;
+    animation: slideRight 0.3s ease-out;
+    transform-origin: top left;
 }
 
 @keyframes slideRight {
@@ -53,65 +41,17 @@ div[class*="ListItem"] > div:not([class*="TopBar"]) {
     }
 }
 
-/* 5. STYLE DE LA BARRE DE TITRE */
-div[class*="ListItemTopBar"] {
-    background-color: #26334d !important;
-    border-bottom: 1px solid #334155 !important;
-    padding: 12px 20px !important;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Titre en bleu clair */
-button[class*="StyledButton"] {
-    color: #93c5fd !important;
-    font-size: 1rem !important;
-    font-weight: 600 !important;
-}
-
-/* 6. STYLE DES CHAMPS (Inputs) */
-input[type="text"], textarea, div[class*="Widget"] {
-    background-color: #0f172a !important;
-    border: 1px solid #334155 !important;
-    border-radius: 6px !important;
-    color: white !important;
-    padding: 10px !important;
-}
-
-input:focus, textarea:focus {
-    border-color: #3b82f6 !important;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
-}
-
-/* 7. BOUTONS */
+/* 4. LE BOUTON D'AJOUT (On le garde grand pour qu'il soit visible) */
 button[class*="AddButton"] {
-    background-color: #3b82f6 !important;
-    color: white !important;
-    border-radius: 6px !important;
-    padding: 10px 20px !important;
-    font-weight: 600 !important;
-    margin-top: 20px !important;
-    display: inline-block !important;
     width: auto !important;
-}
-button[class*="AddButton"]:hover {
-    background-color: #2563eb !important;
-}
-
-/* 8. NETTOYAGE DES ZONES PARASITES */
-div[class*="CollectionTop"],
-div[class*="EditorContainer"] {
-    background: transparent !important;
-    box-shadow: none !important;
-    padding: 0 !important;
+    display: inline-block !important;
+    padding: 10px 25px !important;
+    font-weight: bold !important;
+    margin-top: 20px !important;
 }
 
-/* Labels */
-label {
-    color: #94a3b8 !important;
-    text-transform: uppercase;
-    font-size: 0.75rem !important;
-    font-weight: 700 !important;
-    margin-top: 15px !important;
+/* 5. FIX pour l'alignement des titres */
+h1 {
+    text-align: left !important;
+    margin-left: 0 !important;
 }
