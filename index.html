@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz & Examens Islamiques</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <form name="resultats-examens" netlify netlify-honeypot="bot-field" hidden>
+        <input type="text" name="prenom" />
+        <input type="text" name="examen" />
+        <input type="text" name="score" />
+        <input type="text" name="total" />
+        <input type="text" name="pourcentage" />
+    </form>
+
+    <div class="app-container">
+        <div id="name-screen" class="screen active">
+            <header>
+                <h1>📚 Espace Révisions</h1>
+                <p>Identifie-toi pour commencer</p>
+            </header>
+            <div style="margin-top: 30px; text-align: center;">
+                <input type="text" id="student-name" placeholder="Ton prénom (ex: Youssef)" maxlength="40" class="input-name">
+                <button onclick="saveNameAndStart()" class="primary-btn" style="width: 100%; margin-top: 15px; padding: 15px; font-size: 1.1rem;">Commencer ➜</button>
+            </div>
+        </div>
+
+        <div id="category-screen" class="screen">
+            <header>
+                <h1 id="welcome-title">Salut !</h1>
+                <p>Choisis un sujet pour commencer</p>
+            </header>
+            <div class="category-grid" id="menu-grid">
+                </div>
+        </div>
+
+        <div id="quiz-screen" class="screen">
+            <div class="quiz-header">
+                <span id="category-badge">Catégorie</span>
+                <span id="progress">1 / 10</span>
+            </div>
+            <h2 id="question-text">Question ?</h2>
+            <div id="options-container"></div>
+            
+            <div id="feedback-box" class="hidden">
+                <h3 id="feedback-title"></h3>
+                <p id="feedback-text"></p>
+                <button id="next-btn" onclick="nextQuestion()">Suivant ➜</button>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+
+        <div id="result-screen" class="screen">
+            <div class="result-card">
+                <h2 id="result-name-label">Bravo !</h2>
+                <p>Ton score final est de :</p>
+                <div class="score-display">
+                    <span id="score">0</span> / <span id="total-questions">0</span>
+                </div>
+                <div id="reward-section" class="hidden"></div>
+                <button onclick="returnToHome()" class="primary-btn" style="margin-top: 20px;">🏠 Retour au menu</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
