@@ -8,7 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <form name="resultats-examens" netlify netlify-honeypot="bot-field" hidden>
+<form name="resultats-examens" method="POST" data-netlify="true" hidden>
+        <input type="hidden" name="form-name" value="resultats-examens" />
         <input type="text" name="prenom" />
         <input type="text" name="examen" />
         <input type="text" name="score" />
