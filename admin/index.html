@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Quiz</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <link rel="stylesheet" href="admin.css">
+
+  <style>
+    /* BOUTONS FLOTTANTS */
+    .floating-tools {
+      position: fixed; bottom: 20px; left: 20px; z-index: 9999; display: flex; gap: 10px;
+    }
+    .tool-btn {
+      height: 50px; background-color: #000; color: white; border-radius: 8px;
+      border: 1px solid #333; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: all 0.2s; font-family: sans-serif; font-weight: bold; padding: 0 15px;
+    }
+    .tool-btn:hover { transform: scale(1.05); background-color: #222; }
+
+    /* MODAL DE L'ÉDITEUR VISUEL */
+    #visual-editor-modal {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8); z-index: 10000; overflow-y: auto; font-family: 'Segoe UI', sans-serif;
+    }
+    .modal-content {
+      background: #fff; max-width: 600px; margin: 40px auto; padding: 20px; border-radius: 16px; position: relative;
+    }
+    .close-modal {
+      position: absolute; top: 15px; right: 15px; background: #ef4444; color: white; border: none;
+      border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-weight: bold;
+    }
+    
+    /* STYLE INTERNE DE L'EDITEUR */
+    .q-card { border: 1px solid #ddd; border-radius: 12px; padding: 15px; margin-bottom: 15px; background: #f9fafa; }
+    .q-card input, .q-card textarea { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; }
+    .opt-row { display: flex; gap: 5px; margin-bottom: 5px; }
+    .opt-row input { margin: 0; flex: 1; }
+    .btn-green { background: #10b981; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer;}
+    .btn-blue { background: #3b82f6; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 10px; font-weight: bold;}
+    .btn-red { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer;}
+    .json-output { background: #1e293b; color: #a5f3fc; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 12px; white-space: pre-wrap; margin-top: 20px; max-height: 200px; overflow-y: auto;}
+  </style>
+</head>
+<body>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <div class="floating-tools">
+    <button class="tool-btn" id="magic-prompt-btn" title="Copier le Prompt IA">🤖 Prompt IA</button>
+    <button class="tool-btn" id="open-editor-btn" style="background-color: #667eea;">✏️ Éditeur Visuel</button>
+  </div>
+
+  <div id="visual-editor-modal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeEditor()">X</button>
+      <h2>Créateur de Quiz Visuel</h2>
+      <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Crée tes questions ici. Clique sur "Générer JSON" à la fin, copie le texte, et colle-le dans la case "ZONE DE COLLAGE" de Decap CMS.</p>
+      
+      <div id="questions-container"></div>
+      
+      <button class="btn-blue" onclick="addQuestion()" style="background: #636e72;">+ Ajouter une question</button>
+      <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
+      <button class="btn-blue" onclick="generateJSON()">🔄 Générer le code JSON</button>
+      
+      <div class="json-output" id="json-result">Le code apparaitra ici...</div>
+      <button class="btn-blue" id="copy-json-btn" onclick="copyJSON()" style="display:none; background: #10b981;">📋 Copier pour Decap CMS</button>
+    </div>
+  </div>
+
+  <script>
+    // --- LOGIQUE PROMPT IA ---
+    const MY_PROMPT = `Ton objectif : Créer un quiz de révision simple et clair pour des élèves, basé UNIQUEMENT sur le fichier que je te joins.\nRÈGLES DE STYLE :1. Parle français naturellement. N'utilise JAMAIS d'expressions comme 'Selon le document'. Pose la question directement.2. Questions courtes.3. Options simples.4. Explication courte (1 phrase).\nFORMAT TECHNIQUE :Donne-moi UNIQUEMENT le code JSON brut. Structure : [{"question": "Q?", "options": ["A", "B", "C"], "answer": "A", "explanation": "Car..."}]\nGénère 10 questions.`;
+    
+    document.getElementById('magic-prompt-btn').onclick = function() {
+      navigator.clipboard.writeText(MY_PROMPT).then(() => {
+        this.innerHTML = '✅ Copié !';
+        setTimeout(() => { this.innerHTML = '🤖 Prompt IA'; }, 1500);
+      });
+    };
+
+    // --- LOGIQUE ÉDITEUR VISUEL ---
+    let qData = [];
+
+    document.getElementById('open-editor-btn').onclick = () => {
+        document.getElementById('visual-editor-modal').style.display = 'block';
+        if(qData.length === 0) addQuestion();
+    };
+    function closeEditor() { document.getElementById('visual-editor-modal').style.display = 'none'; }
+
+    function addQuestion() {
+        qData.push({ question: "", options: ["", "", "", ""], answer: "", explanation: "" });
+        renderQuestions();
+    }
+
+    function removeQuestion(index) {
+        qData.splice(index, 1);
+        renderQuestions();
+    }
+
+    function setAnswer(qIndex, optIndex) {
+        qData[qIndex].answer = qData[qIndex].options[optIndex];
+        renderQuestions();
+    }
+
+    function updateData(qIndex, field, value, optIndex = -1) {
+        if(optIndex > -1) {
+            qData[qIndex].options[optIndex] = value;
+            // Si l'option modifiée était la bonne réponse, on met à jour la bonne réponse
+            if (qData[qIndex].answer === qData[qIndex].options[optIndex]) {
+                qData[qIndex].answer = value; 
+            }
+        } else {
+            qData[qIndex][field] = value;
+        }
+    }
+
+    function renderQuestions() {
+        const container = document.getElementById('questions-container');
+        container.innerHTML = "";
+        qData.forEach((q, i) => {
+            let optionsHtml = "";
+            q.options.forEach((opt, j) => {
+                let isAnswer = (opt !== "" && opt === q.answer);
+                optionsHtml += `
+                <div class="opt-row">
+                    <input type="text" placeholder="Option ${j+1}" value="${opt}" oninput="updateData(${i}, 'options', this.value, ${j})">
+                    <button class="btn-green" style="${isAnswer ? 'background:#10b981;' : 'background:#ccc;'}" onclick="setAnswer(${i}, ${j})" title="Définir comme bonne réponse">✔️ Bonne</button>
+                </div>`;
+            });
+
+            container.innerHTML += `
+            <div class="q-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <strong>Question ${i+1}</strong>
+                    <button class="btn-red" onclick="removeQuestion(${i})">🗑️</button>
+                </div>
+                <input type="text" placeholder="Pose ta question ici..." value="${q.question}" oninput="updateData(${i}, 'question', this.value)" style="margin-top:10px;">
+                <div style="font-size:12px; margin-bottom:5px; color:#666;">Choix possibles :</div>
+                ${optionsHtml}
+                <textarea placeholder="Explication courte (optionnel)" oninput="updateData(${i}, 'explanation', this.value)">${q.explanation}</textarea>
+            </div>`;
+        });
+    }
+
+    function generateJSON() {
+        // Nettoyage avant génération (enlève les options vides)
+        let cleanData = qData.map(q => ({
+            question: q.question,
+            options: q.options.filter(o => o.trim() !== ""),
+            answer: q.answer,
+            explanation: q.explanation
+        })).filter(q => q.question.trim() !== "");
+
+        const jsonStr = JSON.stringify(cleanData, null, 2);
+        document.getElementById('json-result').innerText = jsonStr;
+        document.getElementById('copy-json-btn').style.display = 'block';
+    }
+
+    function copyJSON() {
+        const text = document.getElementById('json-result').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.getElementById('copy-json-btn');
+            btn.innerHTML = '✅ JSON Copié ! Tu peux fermer et coller.';
+            setTimeout(() => { btn.innerHTML = '📋 Copier pour Decap CMS'; }, 3000);
+        });
+    }
+  </script>
+</body>
+</html>

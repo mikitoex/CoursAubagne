@@ -1,0 +1,57 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "/uploads"
+public_folder: "/uploads"
+display_url: "https://aubagnecours.netlify.app"
+locale: "fr" 
+
+collections:
+  - name: "quiz"
+    label: "📚 GESTION DES COURS"
+    files:
+      - name: "data"
+        label: "Modifier le contenu"
+        file: "quiz.json"
+        fields:
+          - {
+              label: "MES COURS (Clique sur + pour ajouter)", 
+              name: "categories", 
+              widget: "list", 
+              collapsed: true,
+              summary: "📂 {{title}}", 
+              fields: [
+                # --- FORMULAIRE PROPRE ET CLAIR ---
+                
+                {label: "1. Titre du Cours", name: "title", widget: "string"},
+                {label: "2. Identifiant (minuscule sans espace)", name: "key", widget: "string"},
+                {label: "3. Image (Optionnel)", name: "image", widget: "image", required: false},
+                {label: "4. Emoji (Optionnel)", name: "emoji", widget: "string", required: false},
+                {label: "5. PDF à gagner (Optionnel)", name: "pdf", widget: "file", required: false},
+
+                # ZONE DE COLLAGE (Pour la réponse de l'IA ou de l'éditeur visuel)
+                {
+                  label: "⚡ ZONE DE COLLAGE (Colle le JSON ici)", 
+                  name: "bulk_json", 
+                  widget: "text", 
+                  required: false,
+                  hint: "Clique sur le bouton Éditeur Visuel ou Prompt IA en bas à gauche pour créer ton JSON."
+                },
+
+                # ZONE MANUELLE
+                {
+                  label: "✍️ Modification Manuelle", 
+                  name: "questions", 
+                  widget: "list",
+                  collapsed: true, 
+                  summary: "{{question}}",
+                  fields: [
+                    {label: "Question", name: "question", widget: "string"},
+                    {label: "Réponses", name: "options", widget: "list"},
+                    {label: "Bonne Réponse", name: "answer", widget: "string"},
+                    {label: "Explication", name: "explanation", widget: "text", required: false}
+                  ]
+                }
+              ]
+            }

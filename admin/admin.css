@@ -1,0 +1,30 @@
+/* --- RETOUR À LA NORMALE (STABLE) --- */
+
+/* 1. Juste le bouton "Ajouter" en BLEU */
+button[class*="AddButton"] {
+    background-color: #3b82f6 !important; /* Bleu royal */
+    color: white !important;
+    border: none !important;
+    font-weight: bold !important;
+    text-transform: uppercase;
+    border-radius: 5px !important;
+}
+button[class*="AddButton"]:hover {
+    background-color: #2563eb !important;
+}
+
+/* 2. On s'assure que le reste est propre */
+div[class*="ListItem"] {
+    border: 1px solid #ddd !important;
+    margin-bottom: 15px !important;
+    background: white !important;
+}
+
+/* 3. Style pour la case du Prompt (pour qu'on la repère bien) */
+div[id*="ai_helper-field"] textarea {
+    background-color: #1e293b !important; /* Fond sombre */
+    color: #a5f3fc !important; /* Texte cyan type code */
+    font-family: monospace;
+    font-size: 0.85rem;
+    height: 150px !important;
+}
